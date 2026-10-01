@@ -64,10 +64,12 @@ DLA_GOES_STOCKPILE_CONTRACT = Evidence(
 
 
 CLIFFS_2025_STAINLESS_ELECTRICAL_SHIPMENTS = Evidence(
-    'CLIFFS2025_10K_STAINLESS_ELECTRICAL_SHIPMENTS', 575.0, 'thousand net tons/year', 'FY2025', '2026-02-09',
+    'CLIFFS2025_10K_STAINLESS_ELECTRICAL_SHIPMENTS', 552.0, 'thousand net tons/year', 'FY2025', '2026-02-09',
     'company_sec_filing_measured_aggregate',
     'https://www.clevelandcliffs.com/investors/sec-filings/all-sec-filings/content/0000764065-26-000025/0000764065-26-000025.pdf',
-    'Cleveland-Cliffs FY2025 Form 10-K reports 575 thousand net tons of combined stainless AND electrical-steel shipments. '
+    'Cleveland-Cliffs FY2025 Form 10-K steel-shipments table reports 552 thousand net tons of combined stainless AND '
+    'electrical-steel shipments (567 in 2024). Corrected in Run 057: the earlier 575 was the 10-K\'s $575 million revenue '
+    'decrease, not a tonnage. '
     'This is measured company output but is not GOES-specific, so it cannot replace the GOES capacity upper bound.')
 
 DOE_2024_DISTRIBUTION_TRANSFORMER_FINAL_RULE = Evidence(

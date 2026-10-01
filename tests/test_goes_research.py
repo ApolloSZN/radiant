@@ -45,3 +45,25 @@ def test_phase0_re_exports_are_a_minority_of_2019_exports():
     e = r['exports_2019_kt']
     assert e['re_exports'] / e['total'] == pytest.approx(0.24, abs=0.01)
     assert r['foreign_sheet_retained_2019_kt'] == pytest.approx(17.0, abs=0.2)
+
+
+def test_phase1_facts_typed_and_cliffs_aggregate_is_552_not_575():
+    for f in g.PHASE1_FACTS:
+        assert f.evidence_type in g.EVIDENCE_TYPES and f.source.startswith('http'), f.fact_id
+    assert g.CLIFFS_STAINLESS_ELECTRICAL_KNT[2025] == 552  # 575 was a $ revenue change, not tons
+    assert g.CLIFFS_STAINLESS_ELECTRICAL_KNT[2024] == 567
+
+
+def test_phase1_production_table_pins_2019_and_keeps_gaps_as_gaps():
+    rows = {r['year']: r for r in g.phase1_production_table()}
+    lo, hi = rows[2019]['production_kt']
+    assert 160 < lo < hi < 170 and rows[2019]['production_type'].startswith('estimate')
+    assert rows[2020]['capacity_type'].startswith('stated (all electrical')
+    assert all(rows[y]['production_kt'] is None for y in (2009, 2014, 2016, 2020, 2023, 2028))
+    u = rows[2019]['utilization_vs_all_electrical']
+    assert 0.70 < u[0] < u[1] < 0.75
+
+
+def test_nlr_average_bound_rules_out_220_and_288_as_sheet_baseline():
+    assert g.NLR2026_APPARENT_CONSUMPTION_BOUND.value == pytest.approx(208.9, abs=0.1)
+    assert g.NLR2026_APPARENT_CONSUMPTION_BOUND.value < 220

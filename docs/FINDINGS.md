@@ -310,3 +310,9 @@ The 220 kt is not a Commerce measurement. Commerce's 2021 report repeats it as a
 With the corrected inputs, implied 2019 U.S. production is **164–169 kt**, inside the ~227 kt electrical-steel capacity. A 2017 check using Commerce's 37% figure gives ~162 kt. U.S. "exports" also include re-exports of foreign steel: 10.9 of 45.7 kt in 2019, so foreign sheet that actually stayed in the U.S. was ~17 kt.
 
 The headline is not changed yet (the plan reserves that for Phase 5). Commerce's own 2019 foreign share for all forms was ~44%, not the 33% Radiant reports. Phase 5 will rebuild the floor on the corrected base. Details: `data/goes/research/phase_0.md`.
+
+## Run 057 (Research plan Phase 1) — U.S. GOES output is never published; it can only be inferred
+
+Cleveland-Cliffs, the only U.S. producer, reports GOES inside a "stainless and electrical" line and never on its own. In 2014 its predecessor AK Steel told the USITC its GOES capacity was about 285,000 short tons (~258 kt). In 2020 Cliffs described "up to 250,000 net tons" of all electrical steel (~227 kt). The only production figures available are inferred from trade data and Commerce's percentages: about **162 kt in 2017** and **164–169 kt in 2019**, roughly 72–74% of the 227 kt ceiling. ATI left GOES in 2016. A 70 kt non-oriented line opened in 2023 at the plant that finishes GOES. Cliffs says a Butler upgrade will add about 25% to GOES output by 2028, from an undisclosed base.
+
+This run also corrects a repo error. Cliffs' FY2025 stainless+electrical shipments were **552** thousand net tons, not 575. "575" was a dollar figure in the same 10-K. The headline is unchanged (Phase 5). Details: `data/goes/research/phase_1.md`.

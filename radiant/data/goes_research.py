@@ -133,3 +133,71 @@ def phase0_reconciliation(path: Path = COMTRADE_PATH) -> dict:
         'evidence_type': 'estimate',
         'method': 'Commerce percentages (FR 2021-24958) + U.S.-reported trade (UN Comtrade, reporter 842)',
     }
+
+
+# --- Phase 1: domestic production ----------------------------------------------------
+CLIFFS_10K = 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000764065&type=10-K'
+# Stainless + electrical shipments (thousand net tons), Cliffs 10-K steel-shipments tables. Measured, but GOES is a
+# small, undisclosed part of this aggregate: an upper bound only. 2020 covers 2020-03-13 onward (AK acquisition).
+CLIFFS_STAINLESS_ELECTRICAL_KNT = {2020: 416, 2021: 674, 2022: 763, 2023: 682, 2024: 567, 2025: 552}
+AK_STAINLESS_ELECTRICAL_KNT = {2007: 1072.0, 2008: 957.1}  # AK FY2008 10-K "Tons shipped by product category"
+
+ATI_GOES_EXIT_2016 = Fact(
+    'ATI2016_10K_GOES_EXIT', 2016.0, 'year of exit', '2016', '2017-02', 'measured', 'ATI',
+    'https://www.sec.gov/Archives/edgar/data/1018963/000101896317000007/atify201610-k.htm',
+    'ATI exited "the unprofitable grain-oriented electrical steel (GOES) product line" in early 2016 and permanently '
+    'closed the Bagdad, PA GOES finishing facility. Capacity removed is not disclosed.')
+CLIFFS_ZANESVILLE_NOES_2023 = Fact(
+    'AIST2023_CLIFFS_ZANESVILLE_NOES', 70_000 * SHORT_TON_T / 1000, 'kt/year NOES', '2023-07', '2023-07-27',
+    'stated', 'Cleveland-Cliffs', 'https://www.aist.org/cleveland-cliffs-commissions-noes-expansion',
+    '70,000-ton non-oriented (Motor-Max) expansion commissioned at Zanesville, the GOES finishing plant. Shares the '
+    'electrical-steel footprint; no stated effect on GOES.')
+CLIFFS_BUTLER_GOES_PLUS25 = Fact(
+    'CLIFFS_Q2_2026_CALL_BUTLER_GOES_PLUS25', 0.25, 'relative increase in GOES output at Butler', 'completion 2028',
+    '2026-07', 'stated', 'Cleveland-Cliffs', 'https://www.clevelandcliffs.com/_assets/_c7d9d552b544a2a36f31808074ad8c21/'
+    'clevelandcliffs/db/1111/12098/file/Q2+2026+Earnings+Call+Transcript.pdf',
+    '"we are going to be producing more grain-oriented electrical steels as the -- it\'s estimated 25% increase on that '
+    'plant specifically with the completion of our induction furnaces in the hot strip mill of Butler." Baseline unstated.')
+DOE2022_STAKEHOLDER_DOMESTIC_SHARE = Fact(
+    'DOE2022_GRID_SUPPLY_CHAIN_LPT_GOES_20PCT', 0.20, 'share of LPT-maker GOES demand met domestically',
+    'c. 2021', '2022-02', 'secondhand', 'LPT manufacturers (interviews)',
+    'https://www.energy.gov/sites/default/files/2022-02/Electric%20Grid%20Supply%20Chain%20Report%20-%20Final.pdf',
+    '"Some interviewees estimated that domestic supply meets about 20% of domestic demand" (LPT makers only).')
+NLR2026_APPARENT_CONSUMPTION_BOUND = Fact(
+    'NLR2026_GOES_AC_2019_2023_BOUND', 94.0 / 0.45, 'kt/year (upper bound on 2019-2023 average)', '2019-2023',
+    '2026', 'estimate', '', 'https://docs.nlr.gov/docs/fy26osti/97167.pdf',
+    'NLR: 94-114 kt/yr of transmission GOES is "more than 45%" of 2019-2023 average apparent consumption, so the '
+    'average is below ~209 kt. Source is USITC DataWeb (trade); the production side of NLR\'s figure is undocumented.')
+
+PHASE1_FACTS = (ATI_GOES_EXIT_2016, CLIFFS_ZANESVILLE_NOES_2023, CLIFFS_BUTLER_GOES_PLUS25,
+                DOE2022_STAKEHOLDER_DOMESTIC_SHARE, NLR2026_APPARENT_CONSUMPTION_BOUND)
+
+
+def phase1_production_table(path: Path = COMTRADE_PATH) -> list[dict]:
+    """Year-by-year U.S. GOES capacity / production evidence, 2007-2028. None means no source exists."""
+    p0 = phase0_reconciliation(path)
+    cap20 = CLIFFS_ELECTRICAL_CAPACITY_2020.value
+    rows = [
+        dict(year=2009, capacity_kt=AK_2007_GOES_CAPACITY_PLAN.value, capacity_type='secondhand (planned, GOES)',
+             production_kt=None, production_type=None, note='AK expansion program; FY2008 10-K confirms $268M, no tonnage'),
+        dict(year=2014, capacity_kt=AK_2014_GOES_CAPACITY.value, capacity_type='stated (GOES only, AK, petitioner)',
+             production_kt=None, production_type=None, note='USITC Pub. 4491; U.S. producer data redacted (AK + ATI)'),
+        dict(year=2016, capacity_kt=None, capacity_type=None, production_kt=None, production_type=None,
+             note='ATI exits GOES; Cliffs/AK becomes sole producer'),
+        dict(year=2017, capacity_kt=None, capacity_type=None,
+             production_kt=(p0['implied_production_2017_kt'],) * 2 if p0['implied_production_2017_kt'] else None,
+             production_type='estimate (Commerce 37% share + Comtrade trade)', note=''),
+        dict(year=2019, capacity_kt=None, capacity_type=None, production_kt=p0['implied_production_2019_kt'],
+             production_type='estimate (Commerce percentages + Comtrade trade)', note='Phase 0'),
+        dict(year=2020, capacity_kt=cap20, capacity_type='stated (all electrical steel, Cliffs)', production_kt=None,
+             production_type=None, note='Repeated 2024. GOES-only capacity not disclosed after 2014'),
+        dict(year=2023, capacity_kt=None, capacity_type=None, production_kt=None, production_type=None,
+             note='70 kt NOES line commissioned at Zanesville (shares the electrical-steel footprint)'),
+        dict(year=2028, capacity_kt=None, capacity_type='stated: +25% GOES at Butler (baseline unstated)',
+             production_kt=None, production_type=None, note='Cliffs Q2 2026 call'),
+    ]
+    for r in rows:
+        prod = r['production_kt']
+        r['utilization_vs_all_electrical'] = None if prod is None else (prod[0] / cap20, prod[1] / cap20)
+        r['aggregate_upper_bound_knt'] = CLIFFS_STAINLESS_ELECTRICAL_KNT.get(r['year']) or AK_STAINLESS_ELECTRICAL_KNT.get(r['year'])
+    return rows

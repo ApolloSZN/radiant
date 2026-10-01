@@ -59,7 +59,7 @@ def test_run030_context_evidence_is_typed_and_does_not_change_floor():
     r = goes_import_floor_result()
     assert r['import_floor_kt'][0] > 80
     c = r['context_evidence']
-    assert c['producer_2025_shipments']['value'] == 575.0
+    assert c['producer_2025_shipments']['value'] == 552.0
     assert 'combined stainless AND electrical' in c['producer_2025_shipments']['scope_note']
     assert c['distribution_transformer_rule']['value'] == 0.75
     assert c['distribution_transformer_rule_status_2026']['value'] == 2029.0
