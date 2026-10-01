@@ -92,13 +92,25 @@ PHASE0_FACTS = (COMMERCE_2019_CONSUMPTION_CORE_COALITION, COMMERCE_2019_SHEET_IM
 
 
 def comtrade_world_kt(year: int, flow: str, codes: tuple[str, ...] = GOES_HS6, path: Path = COMTRADE_PATH) -> float | None:
-    """U.S.-reported world total net weight (kt) for a flow (M, X, DX, RX); None if absent."""
+    """U.S.-reported world total net weight (kt) for a flow (M, X, DX, RX); None if absent.
+
+    Some world rows carry value but no weight (e.g. 2016 imports of 722611); then the partner rows,
+    which do carry weight, are summed for that code instead.
+    """
     if not Path(path).exists():
         return None
-    vals = [float(r['net_kg']) for r in csv.DictReader(Path(path).open())
-            if r['partner_code'] == '0' and int(r['year']) == year and r['flow'] == flow and r['hs6'] in codes
-            and r['net_kg'] != '']
-    return sum(vals) / 1e6 if vals else None
+    rows = [r for r in csv.DictReader(Path(path).open())
+            if int(r['year']) == year and r['flow'] == flow and r['hs6'] in codes]
+    total, found = 0.0, False
+    for c in codes:
+        world = [r for r in rows if r['hs6'] == c and r['partner_code'] == '0']
+        if world and world[0]['net_kg'] != '':
+            total, found = total + float(world[0]['net_kg']), True
+            continue
+        parts = [float(r['net_kg']) for r in rows if r['hs6'] == c and r['partner_code'] != '0' and r['net_kg'] != '']
+        if parts:
+            total, found = total + sum(parts), True
+    return total / 1e6 if found else None
 
 
 def phase0_reconciliation(path: Path = COMTRADE_PATH) -> dict:
@@ -201,3 +213,112 @@ def phase1_production_table(path: Path = COMTRADE_PATH) -> list[dict]:
         r['utilization_vs_all_electrical'] = None if prod is None else (prod[0] / cap20, prod[1] / cap20)
         r['aggregate_upper_bound_knt'] = CLIFFS_STAINLESS_ELECTRICAL_KNT.get(r['year']) or AK_STAINLESS_ELECTRICAL_KNT.get(r['year'])
     return rows
+
+
+# --- Phase 2: trade by country and form ----------------------------------------------
+NORTH_AMERICA = ('Canada', 'Mexico')
+CORE_PARTS_HS6 = ('850490',)
+LIQUID_TRANSFORMERS_HS6 = ('850421', '850422', '850423')
+
+DOE2022_GOES_SHARE_OF_TRANSFORMER_WEIGHT = Fact(
+    'DOE2022_HEGEDIC2016_CORE_40PCT', 0.40, 'GOES core share of transformer weight', 'c. 2016', '2022-02',
+    'secondhand', '', 'https://www.energy.gov/sites/default/files/2022-02/Electric%20Grid%20Supply%20Chain%20Report%20-%20Final.pdf',
+    'DOE 2022 grid supply chain review, p. 13: "The core steel made of GOES accounts for 40% (Hegedic et al., 2016) of the '
+    'transformer weight." Context is LPT end-of-life.')
+NLR2026_GOES_SHARE_OF_LPT_WEIGHT = Fact(
+    'NLR2026_TP_6A40_97167_TABLE3_GOES', 0.48, 'GOES mass fraction (LPT reference model, >=100 MVA)', '2026', '2026-01',
+    'model', '', 'https://docs.nlr.gov/docs/fy26osti/97167.pdf', 'NLR reference material model: 600 kg/MVA, 48% GOES.')
+COMMERCE2021_DOUBLE_COUNT_CAVEAT = Fact(
+    'COMMERCE2021_ROUND_TRIP_ASSUMED_MINIMAL', 0.0, 'qualitative', '2019', '2021-11-18', 'stated', '', FR2021,
+    '"this number could include double counting from U.S. exports of GOES that is then imported into the United States in '
+    'the form of cores, but this is likely minimal because Canada was not a major destination for U.S. GOES exports".')
+COGENT_JFE_CANADA = Fact(
+    'MAGNETICS2019_COGENT_JFE_SHOJI', 0.0, 'qualitative', '2019-', '2019', 'stated', 'JFE Shoji',
+    'https://magneticsmag.com/jfe-gains-foothold-in-na-with-acquisition-of-cogent-power-from-tata-steel/',
+    'JFE Shoji bought Cogent Power (Burlington, Ontario) from Tata Steel in 2019; described as the largest North American '
+    'transformer-core maker (mitre, wound, amorphous cores). Commerce notes Tata-owned Orb Steel (UK) had been a major '
+    'supplier to Cogent.')
+COREFFICIENT_MEXICO = Fact(
+    'COREFFICIENT_MONTERREY', 0.0, 'qualitative', '2026', '2026', 'stated', 'Corefficient (Kloeckner Metals)',
+    'https://corefficientsrl.com/', 'Monterrey, Mexico core maker (Kloeckner Metals) supplying the U.S., Canada and Mexico.')
+PROLEC_GE_MEXICO = Fact(
+    'GEVERNOVA_PROLEC_GE', 0.0, 'qualitative', '2025', '2025', 'stated', 'GE Vernova',
+    'https://www.gevernova.com/news/press-releases/ge-vernova-fully-acquire-prolec-ge-joint-venture',
+    'Prolec GE (Monterrey) transformer maker; GE Vernova moved to acquire the full joint venture.')
+
+# BLS PPI, power/distribution/specialty transformer manufacturing (PCU335311335311), annual mean of monthly values.
+TRANSFORMER_PPI = {2015: 230.2, 2016: 227.8, 2017: 234.6, 2018: 245.9, 2019: 252.1, 2020: 255.3, 2021: 299.6,
+                   2022: 396.3, 2023: 416.6, 2024: 429.7, 2025: 442.7}
+COMMERCE2019_LPT_IMPORT_UNITS = 617  # HTS 8504.23.0080 (>100 MVA), FR 2021-24958 Figure VIII-3 (USITC DataWeb)
+NLR2026_LPT_GOES_KG_PER_MVA = 600.0 * 0.48  # NLR reference model: 600 kg/MVA x 48% GOES
+
+PHASE2_FACTS = (DOE2022_GOES_SHARE_OF_TRANSFORMER_WEIGHT, NLR2026_GOES_SHARE_OF_LPT_WEIGHT, COMMERCE2021_DOUBLE_COUNT_CAVEAT,
+                COGENT_JFE_CANADA, COREFFICIENT_MEXICO, PROLEC_GE_MEXICO)
+
+
+def _partner_rows(path: Path = COMTRADE_PATH) -> list[dict]:
+    return [r for r in csv.DictReader(Path(path).open()) if r['partner_code'] != '0']
+
+
+def _sum(rows, codes, year, flow, field, partners=None) -> float:
+    return sum(float(r[field] or 0) for r in rows if r['hs6'] in codes and int(r['year']) == year and r['flow'] == flow
+               and (partners is None or r['partner'] in partners))
+
+
+def partner_table(year: int, flow: str, codes: tuple[str, ...] = GOES_HS6, top: int = 5, path: Path = COMTRADE_PATH) -> list[tuple[str, float]]:
+    """Top partners by net weight (kt) for one year and flow."""
+    rows = _partner_rows(path)
+    by: dict[str, float] = {}
+    for r in rows:
+        if r['hs6'] in codes and int(r['year']) == year and r['flow'] == flow:
+            by[r['partner']] = by.get(r['partner'], 0.0) + float(r['net_kg'] or 0) / 1e6
+    return sorted(by.items(), key=lambda kv: -kv[1])[:top]
+
+
+def phase2_round_trip(path: Path = COMTRADE_PATH) -> dict[int, dict]:
+    """Share of U.S. GOES sheet exports going to Canada + Mexico, the core-making countries."""
+    rows, out = _partner_rows(path), {}
+    for y in range(2015, 2026):
+        d = {}
+        for flow in ('DX', 'RX'):
+            tot = _sum(rows, GOES_HS6, y, flow, 'net_kg')
+            na = _sum(rows, GOES_HS6, y, flow, 'net_kg', NORTH_AMERICA)
+            d[flow] = {'kt': tot / 1e6, 'to_canada_mexico_kt': na / 1e6, 'share': na / tot if tot else None}
+        out[y] = d
+    return out
+
+
+def phase2_embodied(path: Path = COMTRADE_PATH) -> dict[int, dict]:
+    """GOES in imported cores and finished transformers, by year: measured values, estimated tonnes.
+
+    Cores (8504.90 from Canada + Mexico): no weight is reported. Index = Commerce's 68 kt (2019) scaled by the
+    real value of these imports, deflated by the U.S. GOES import unit value. Range = [2019 level, index].
+    Caveat: 8504.90 also holds non-core parts; Run 054's lamination unit counts fell 17% in 2024 while this index rose.
+    Finished transformers: Comtrade's weights for 8504.21-.34 are imputed from value (every partner has the same
+    kg per dollar within a year), so they are not used. Instead a lower bound for large power transformers:
+    Commerce's 617 imported LPTs in 2019 x 100 MVA (the class minimum) x NLR's 288 kg GOES/MVA = 17.8 kt, scaled to
+    other years by the real value of 8504.23 imports (deflated by the BLS transformer PPI). Smaller transformers
+    are excluded, so this is a floor on the transformer channel, not an estimate of it.
+    """
+    rows, out = _partner_rows(path), {}
+    v19 = _sum(rows, CORE_PARTS_HS6, 2019, 'M', 'value_usd', NORTH_AMERICA)
+    p19 = _sum(rows, GOES_HS6, 2019, 'M', 'value_usd') / _sum(rows, GOES_HS6, 2019, 'M', 'net_kg')
+    base = COMMERCE_2019_EMBODIED_CORES.value
+    lpt19 = COMMERCE2019_LPT_IMPORT_UNITS * 100.0 * NLR2026_LPT_GOES_KG_PER_MVA / 1e6  # kt
+    t19 = _sum(rows, ('850423',), 2019, 'M', 'value_usd')
+    for y in range(2015, 2026):
+        v = _sum(rows, CORE_PARTS_HS6, y, 'M', 'value_usd', NORTH_AMERICA)
+        p = _sum(rows, GOES_HS6, y, 'M', 'value_usd') / _sum(rows, GOES_HS6, y, 'M', 'net_kg')
+        idx = base * (v / v19) / (p / p19)
+        t = _sum(rows, ('850423',), y, 'M', 'value_usd')
+        out[y] = {
+            'cores_value_canada_mexico_musd': v / 1e6,                     # measured
+            'goes_import_unit_value_usd_per_kg': p,                       # measured
+            'cores_goes_kt_index': idx,                                   # estimate
+            'cores_goes_kt_range': tuple(sorted((base, idx))),            # estimate
+            'transformers_value_musd': _sum(rows, LIQUID_TRANSFORMERS_HS6 + ('850432', '850433', '850434'), y, 'M', 'value_usd') / 1e6,
+            'liquid_transformer_units': _sum(rows, LIQUID_TRANSFORMERS_HS6, y, 'M', 'qty'),  # measured
+            'transformer_ppi': TRANSFORMER_PPI[y],                        # measured
+            'lpt_goes_kt_lower_bound': lpt19 * (t / t19) / (TRANSFORMER_PPI[y] / TRANSFORMER_PPI[2019]),  # estimate
+        }
+    return out

@@ -67,3 +67,34 @@ def test_phase1_production_table_pins_2019_and_keeps_gaps_as_gaps():
 def test_nlr_average_bound_rules_out_220_and_288_as_sheet_baseline():
     assert g.NLR2026_APPARENT_CONSUMPTION_BOUND.value == pytest.approx(208.9, abs=0.1)
     assert g.NLR2026_APPARENT_CONSUMPTION_BOUND.value < 220
+
+
+def test_comtrade_world_falls_back_to_partners_when_world_weight_blank():
+    # 2016 world row for 722611 has value but no weight; partner rows carry it.
+    assert g.comtrade_world_kt(2016, 'M') == pytest.approx(35.6, abs=0.1)
+
+
+def test_phase2_round_trip_us_exports_now_go_to_core_makers():
+    rt = g.phase2_round_trip()
+    assert rt[2019]['DX']['share'] < 0.20                       # Commerce's 2019 premise held then
+    assert all(rt[y]['DX']['share'] > 0.75 for y in range(2021, 2026))  # and stopped holding after 2020
+    assert all(rt[y]['RX']['share'] > 0.95 for y in range(2015, 2026))  # re-exports always go to CA/MX
+
+
+def test_comtrade_transformer_weights_are_imputed_so_never_used_as_tonnes():
+    import csv
+    rows = [r for r in csv.DictReader(open(g.COMTRADE_PATH)) if r['hs6'] == '850423' and r['flow'] == 'M'
+            and r['year'] == '2019' and r['partner_code'] != '0' and r['net_kg'] and float(r['value_usd']) > 1e6]
+    ratios = {round(float(r['net_kg']) / float(r['value_usd']), 4) for r in rows}
+    assert len(rows) > 5 and len(ratios) == 1          # one kg-per-dollar for every country = imputed from value
+    assert 'liquid_transformers_kt_imputed' not in g.phase2_embodied()[2019]
+
+
+def test_phase2_embodied_anchors_and_bounds():
+    e = g.phase2_embodied()
+    assert e[2019]['cores_goes_kt_index'] == pytest.approx(68.0)
+    assert e[2019]['lpt_goes_kt_lower_bound'] == pytest.approx(617 * 100 * 0.288 / 1000, rel=1e-6)
+    assert e[2025]['cores_goes_kt_range'][0] == 68.0 and e[2025]['cores_goes_kt_range'][1] > 100
+    assert e[2025]['transformer_ppi'] / e[2019]['transformer_ppi'] == pytest.approx(1.756, abs=0.01)
+    for f in g.PHASE2_FACTS:
+        assert f.evidence_type in g.EVIDENCE_TYPES
