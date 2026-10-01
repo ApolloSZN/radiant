@@ -282,3 +282,21 @@ No 2020–2025 quantity payload was recovered in this runtime, so the conditiona
 A June 2025 Cleveland-Cliffs submission in Commerce docket BIS-2025-0023 includes a USITC DataWeb table for U.S. imports of laminations for incorporation into stacked transformer cores under HTS 8504.90.9534 and 8504.90.9634. It reports **147,652,598 units in 2024**, down 17% from 177,844,193 in 2023; Mexico supplied 129,877,076 of the 2024 units. For January-February 2025, the table reports **25,059,726 units**, 6% above the same period of 2024.
 
 This is useful recent evidence that the embodied-GOES derivative channel remained quantitatively large after the 2019/2020 Commerce estimates. It does **not** update the 68 kt (2019) or 96 kt (2020 estimate) embodied-GOES mass values: these newer tariff lines report pieces/units, and there is no defensible weight-per-unit distribution in the source. Radiant therefore records the counts but refuses to turn them into tonnes or annualize the two-month 2025 observation. The Run 053 headline remains unchanged: about 33% foreign in 2019, rising to a conditional floor of 41–44% under the modeled grid increment. No shortage is claimed.
+
+## Run 055 — measured U.S. GOES trade, 2019–2025: direct imports are flat-to-down, and the U.S. is a net exporter
+
+The Census International Trade API (imports for consumption; four-code HTS10 GOES scope) now supplies annual tonnage. Census reports no quantity at the HS6 level, so tonnes come from HTS10 kilograms; in every year the HTS10 lines add up to exactly 100% of the HS6 dollar value, so nothing is missing.
+
+| Year | Imports (kt) | Exports (kt) | Net imports (kt) |
+|---|---|---|---|
+| 2019 | 26.8 | 45.7 | −18.9 |
+| 2020 | 26.2 | 30.6 | −4.4 |
+| 2021 | 41.8 | 47.7 | −5.8 |
+| 2022 | 20.0 | 71.9 | −51.9 |
+| 2023 | 31.4 | 45.8 | −14.4 |
+| 2024 | 35.2 | 37.5 | −2.3 |
+| 2025 | 19.8 | 43.8 | −24.0 |
+
+Census's 2019 import figure (26.8 kt) matches the Commerce anchor already used in the model (27 kt) to within 1%, which confirms the 2019 baseline. Direct GOES sheet imports did **not** rise after 2019: they peaked at 41.8 kt in 2021 and were 19.8 kt in 2025, 26% below 2019. Import prices did rise, from about $1.89/kg to $3.22/kg, so import dollars went up while tonnes went down.
+
+This does **not** change the 41–44% all-forms finding. That number is a forward-looking floor: how much foreign GOES the U.S. would need if grid demand grows and the domestic producer is capped. The trade data shows the direct-sheet channel is not moving toward it. 2025 direct imports are about one-fifth of the 87–107 kt sheet floor (4.4–5.4×). Any foreign supply that does arrive must therefore come mostly as cores, laminations and finished transformers, which this dataset does not weigh. No shortage is claimed.

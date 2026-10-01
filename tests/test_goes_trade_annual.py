@@ -142,3 +142,21 @@ def test_fetch_census_key_redirect_or_non_json_is_clear_status_and_not_retried(t
     rows = list(csv.DictReader(text.splitlines()))
     assert {r['status'] for r in rows} == {'census_missing_or_invalid_key'}
     assert 'SECRETKEY123' not in text
+
+
+def test_hs6_without_quantity_uses_hs10_kg_only_when_hs10_value_covers_hs6(tmp_path):
+    # Live Census API (Run 055): HS6 rows carry value but quantity 0 / unit '-'; kg exists only at HS10.
+    def rows(hs10_val):
+        return [dict(_row(2025,'imports','HS6','722511', 0, unit='-'), value_usd=100),
+                dict(_row(2025,'imports','HS6','722611', 0, unit='-'), value_usd=50),
+                dict(_row(2025,'imports','HS10','7225110000', 10_000_000), value_usd=100),
+                dict(_row(2025,'imports','HS10','7226111000', 5_000_000), value_usd=hs10_val)]
+    p = tmp_path / 't.csv'
+    _write(p, rows(50))
+    t = load_annual_goes_trade(p)
+    assert t[2025]['imports']['complete'] is True and t[2025]['imports']['tonnes'] == 15_000
+    assert t[2025]['imports']['hs10_check'] == 'hs10_tonnes_value_match'
+    _write(p, rows(10))  # HS10 covers only 110/150 of HS6 value: missing codes, fail closed
+    t = load_annual_goes_trade(p)
+    assert t[2025]['imports']['complete'] is False and t[2025]['imports']['tonnes'] is None
+    assert t[2025]['imports']['hs10_check'].startswith('hs10_value_mismatch')

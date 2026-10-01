@@ -204,5 +204,6 @@ def test_commerce_goes_hts10_scope_resolves_fetch_coverage_without_inventing_rec
     assert all(c in e['scope_note'] for c in codes)
     assert 'does not supply' in e['scope_note']
     assert COMMERCE_2014_US_GOES_HTS10_SCOPE.evidence_id not in r['evidence_ids']
-    assert r['recent_imports_comparison']['status'] == 'not_ingested'
+    rc = r['recent_imports_comparison']  # recent tonnage comes only from the Census pull, never the scope mapping
+    assert rc.get('status') == 'not_ingested' or 'Census International Trade API' in rc['source']
     assert r['import_floor_kt'] == pytest.approx((87.203815, 107.203815))

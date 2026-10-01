@@ -353,7 +353,8 @@ def goes_import_floor_result(scenario_capacity_multiplier: float | None = 1.25) 
         out['recent_imports_comparison'] = {
             'year': y, 'imports_kt': t / 1000.0,
             'import_floor_multiple_of_recent_imports': tuple(f / (t / 1000.0) for f in floor) if t else None,
-            'source': 'data/goes/goes_trade_annual.csv (Census International Trade API, HS6 722511+722611)',
+            'source': 'data/goes/goes_trade_annual.csv (Census International Trade API, HS6 722511+722611; '
+                      'tonnes from HS10 kg when Census reports no HS6 quantity)',
         }
     else:
         out['recent_imports_comparison'] = {'status': 'not_ingested',

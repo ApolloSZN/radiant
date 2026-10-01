@@ -2,7 +2,9 @@
 
 A year is usable only if BOTH HS6 headings (722511, 722611) returned rows in kilograms
 for that direction. HS10 rows, when complete, must sum to the HS6 total within 2%;
-otherwise the year is flagged rather than silently accepted.
+otherwise the year is flagged rather than silently accepted. The live Census API reports
+no HS6 quantity (unit '-'); then tonnes come from HS10 kg, accepted only when HS10 value
+matches HS6 value within 2% (i.e. the HS10 codes cover the whole heading).
 """
 from __future__ import annotations
 import csv
@@ -35,6 +37,18 @@ def load_annual_goes_trade(path: str | Path = DEFAULT_PATH) -> dict | None:
                     entry['hs10_check'] = 'match' if t6 == 0 or abs(t10 - t6) / t6 <= 0.02 else f'mismatch hs10={t10:.0f}t'
                 elif h10:
                     entry['hs10_check'] = 'hs10_incomplete_for_year (codes may differ by period)'
+            elif all(c in h6 and h6[c]['status'] == 'ok' and h6[c]['unit'].strip() in ('', '-') for c in HS6):
+                # Census reports no quantity at HS6 (unit '-'); tonnage exists only at HS10. Use HS10 kg
+                # only if every HS10 row is ok in kg and HS10 value covers the HS6 value within 2%.
+                h10 = [r for r in yr if r['level'] == 'HS10']
+                if h10 and all(r['status'] == 'ok' and r['unit'].upper() in KG_UNITS for r in h10):
+                    v6 = sum(float(h6[c]['value_usd'] or 0) for c in HS6)
+                    v10 = sum(float(r['value_usd'] or 0) for r in h10)
+                    if v6 > 0 and abs(v10 - v6) / v6 <= 0.02:
+                        entry.update(complete=True, tonnes=sum(float(r['quantity']) for r in h10) / 1000.0,
+                                     hs10_check='hs10_tonnes_value_match')
+                    else:
+                        entry['hs10_check'] = f'hs10_value_mismatch hs10=${v10:.0f} hs6=${v6:.0f}'
             out.setdefault(y, {})[d] = entry
     return out
 
