@@ -300,3 +300,13 @@ The Census International Trade API (imports for consumption; four-code HTS10 GOE
 Census's 2019 import figure (26.8 kt) matches the Commerce anchor already used in the model (27 kt) to within 1%, which confirms the 2019 baseline. Direct GOES sheet imports did **not** rise after 2019: they peaked at 41.8 kt in 2021 and were 19.8 kt in 2025, 26% below 2019. Import prices did rise, from about $1.89/kg to $3.22/kg, so import dollars went up while tonnes went down.
 
 This does **not** change the 41–44% all-forms finding. That number is a forward-looking floor: how much foreign GOES the U.S. would need if grid demand grows and the domestic producer is capped. The trade data shows the direct-sheet channel is not moving toward it. 2025 direct imports are about one-fifth of the 87–107 kt sheet floor (4.4–5.4×). Any foreign supply that does arrive must therefore come mostly as cores, laminations and finished transformers, which this dataset does not weigh. No shortage is claimed.
+
+## Run 056 (Research plan Phase 0) — the 220 kt "consumption" already includes imported cores
+
+The Run 055 trade data exposed a contradiction: 220 kt of 2019 use, minus imports, plus exports, implied ~239 kt of U.S. production, more than the ~227 kt capacity in the model. Phase 0 traced each input to its source.
+
+The 220 kt is not a Commerce measurement. Commerce's 2021 report repeats it as an estimate "per year" and footnotes it to the Core Coalition, a group of core importers. Commerce's own percentages pin down what it means. Sheet imports were "less than 20 percent" of 2019 consumption, all-forms imports (sheet plus GOES inside cores) were "approximately 44 percent", and 2020 was projected "over 50 percent". Only one picture satisfies all three: about **148 kt of sheet consumption** and about **216 kt of total GOES use**, which is the 220 kt. The model's 288 kt adds the 68 kt of cores a second time.
+
+With the corrected inputs, implied 2019 U.S. production is **164–169 kt**, inside the ~227 kt electrical-steel capacity. A 2017 check using Commerce's 37% figure gives ~162 kt. U.S. "exports" also include re-exports of foreign steel: 10.9 of 45.7 kt in 2019, so foreign sheet that actually stayed in the U.S. was ~17 kt.
+
+The headline is not changed yet (the plan reserves that for Phase 5). Commerce's own 2019 foreign share for all forms was ~44%, not the 33% Radiant reports. Phase 5 will rebuild the floor on the corrected base. Details: `data/goes/research/phase_0.md`.
