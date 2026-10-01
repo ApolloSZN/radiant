@@ -117,3 +117,19 @@ def test_phase3_finished_transformers_are_a_large_hidden_channel():
     lpt_lo = r['top_down_kt']['lpt_imported'][0]
     assert lpt_lo > g.phase2_embodied()[2019]['lpt_goes_kt_lower_bound']  # DOE weights tighten the Phase 2 floor
     assert lpt_lo + r['top_down_kt']['dt_imported'][0] > 65  # comparable to the 68 kt in cores
+
+
+def test_phase4_policy_corrects_plan_and_timeline_is_sourced_and_ordered():
+    assert g.ADCVD_ORDERS_ON_GOES_IN_FORCE is False
+    dates = [d for d, _, _ in g.POLICY_TIMELINE]
+    assert dates == sorted(dates)
+    assert all(src.startswith('http') for _, _, src in g.POLICY_TIMELINE)
+
+
+def test_phase4_expansions_and_prices():
+    assert len(g.TRANSFORMER_EXPANSIONS) >= 10
+    assert all(e['source'].startswith('http') and e['evidence_type'] in g.EVIDENCE_TYPES for e in g.TRANSFORMER_EXPANSIONS)
+    p = g.phase4_prices()
+    assert p[2019]['goes_import_usd_per_kg'] == pytest.approx(1.94, abs=0.01)
+    assert p[2023]['goes_import_usd_per_kg'] > 2 * p[2019]['goes_import_usd_per_kg']  # GOES import price doubled by 2023
+    assert p[2025]['transformer_ppi'] / p[2019]['transformer_ppi'] > 1.7

@@ -417,3 +417,84 @@ def phase3_demand_comparison() -> dict:
         'residual_for_medium_power_and_other_kt': (dom_supply[0] - dom_need[1], dom_supply[1] - dom_need[0]),
         'evidence_type': 'estimate',
     }
+
+
+# --- Phase 4: market, prices, policy -------------------------------------------------
+# Transformer-plant expansions announced since 2022. Company announcements as reported (secondhand unless the
+# company page itself is cited). Capacity is mostly stated as a percentage or in dollars, not in MVA or GOES tonnes;
+# no announcement found states where the plant will source its GOES.
+TRANSFORMER_EXPANSIONS = (
+    dict(company='Hitachi Energy', site='South Boston, VA', product='large power transformers', usd_m=457,
+         capacity='largest LPT plant in the U.S.', online='2028', evidence_type='secondhand',
+         source='https://www.utilitydive.com/news/hitachi-energy-expands-transformer-factories-pennsylvania-virginia-mexico/728308/'),
+    dict(company='Hitachi Energy', site='Reynosa, MX (+VA, PA)', product='distribution transformers (MX)', usd_m=155,
+         capacity='$70M new DT factory in Mexico', online='c. 2026', evidence_type='secondhand',
+         source='https://www.manufacturingdive.com/news/hitachi-energy-expands-transformer-factories-pennsylvania-virginia-mexico/728188/'),
+    dict(company='Siemens Energy', site='Charlotte, NC', product='large power transformers', usd_m=150,
+         capacity='new LPT factory; first units early 2026', online='2026', evidence_type='stated',
+         source='https://www.siemens-energy.com/global/en/home/stories/transformer-manufacturing-and-service-expansion-in-us.html'),
+    dict(company='HD Hyundai Electric', site='Montgomery, AL (2nd plant)', product='extra-high-voltage power transformers',
+         usd_m=200, capacity='+50% EHV capacity; 765 kV', online='2027-04', evidence_type='secondhand',
+         source='https://www.koreatimes.co.kr/amp/business/companies/20260308/hd-hyundai-electric-expands-us-transformer-manufacturing-capacity'),
+    dict(company='Hyosung HICO', site='Memphis, TN', product='power transformers (to 765 kV)', usd_m=51 + 157,
+         capacity='+50% (new facility); >$300M since 2019', online='c. 2027', evidence_type='secondhand',
+         source='https://transformer-technology.com/hyosung-hico-expands-memphis-plant-again-with-157m-investment/'),
+    dict(company='Prolec GE', site='Goldsboro, NC', product='medium power transformers', usd_m=140,
+         capacity='doubles medium-power capacity', online='c. 2026', evidence_type='secondhand',
+         source='https://www.industrialinfo.com/iirenergy/industry-news/article/investments-in-us-transformer-manufacturing-aim-to-meet-surging-demand--346393'),
+    dict(company='Eaton', site='Jonesville, SC', product='three-phase transformers', usd_m=None,
+         capacity='third U.S. three-phase plant', online='2027', evidence_type='secondhand',
+         source='https://www.industrialinfo.com/iirenergy/industry-news/article/investments-in-us-transformer-manufacturing-aim-to-meet-surging-demand--346393'),
+    dict(company='WEG', site='Washington, MO', product='specialty/power transformers', usd_m=77,
+         capacity='+50%', online='by 2028', evidence_type='secondhand',
+         source='https://whbl.com/2025/09/23/brazils-weg-to-invest-77-million-to-boost-us-plant-capacity-due-to-ai-demand/'),
+    dict(company='Virginia Transformer', site='Rincon, GA', product='power transformers', usd_m=None,
+         capacity='+~70%; 400 jobs', online='from 2026', evidence_type='secondhand',
+         source='https://transformer-technology.com/virginia-transformer-announces-70-production-increase-at-rincon-facility/'),
+    dict(company='SPX Transformer Solutions', site='Waukesha, WI', product='power transformers', usd_m=70,
+         capacity='200+ jobs', online='c. 2025', evidence_type='secondhand',
+         source='https://biztimes.com/spx-expands-transformer-solutions-facility-2/?amp=1'),
+    dict(company='ERMCO', site='West Tennessee', product='distribution transformers', usd_m=None,
+         capacity='three-phase project; 400 jobs; $54.1M tax-credit financing', online='phased', evidence_type='secondhand',
+         source='https://www.tradeandindustrydev.com/'),
+)
+
+LEAD_TIMES = (
+    Fact('DOE2024_LPT_LEAD_TIME', 36.0, 'months (commonly quoted; max 60)', '2024', '2024-07', 'stated', '', DOE_LPT_2024,
+         '"36-month lead times being commonly quoted and maximum lead times reaching as much as 60 months".'),
+    Fact('NIAC2024_LEAD_TIME_AVG', 120.0, 'weeks average (2024), from ~50 in 2021; LPT/GSU 80-210', '2021-2024',
+         '2024-06', 'secondhand', 'NIAC (industry members)',
+         'https://www.cisa.gov/sites/default/files/2024-06/DRAFT_NIAC_Addressing%20the%20Critical%20Shortage%20of%20Power%20Transformers%20to%20Ensure%20Reliability%20of%20the%20U.S.%20Grid_Report_06052024_508c.pdf',
+         'Draft NIAC report as summarized by trade press: lead times ~50 weeks (2021) to ~120 weeks average (2024).'),
+    Fact('CRS2026_DT_LEAD_TIME_30WK', 30.0, 'weeks for distribution transformers by Q2 2025 (from ~2 years)', '2022-2025',
+         '2026-04-23', 'secondhand', '', 'https://www.everycrsreport.com/reports/R48933.html',
+         'CRS R48933: DT orders "taking two years ... a fourfold increase compared to pre-2022"; "decreased to 30 weeks by '
+         'the second quarter of 2025".'),
+)
+
+POLICY_TIMELINE = (
+    ('1994-06', 'AD orders on GOES from Japan and Italy; CVD on Italy', 'https://www.govinfo.gov/content/pkg/FR-2006-03-28/pdf/E6-4477.pdf'),
+    ('2006-03-14', 'Those orders revoked: domestic industry did not take part in the sunset review', 'https://www.govinfo.gov/content/pkg/FR-2006-03-28/pdf/E6-4477.pdf'),
+    ('2014-10/11', 'USITC negative final determinations on GOES from all 7 countries: no AD/CVD orders issued', 'https://www.usitc.gov/press_room/news_release/2014/er1023mm2.htm'),
+    ('2016', 'ATI exits GOES; AK Steel becomes the sole U.S. producer', ATI_GOES_EXIT_2016.source),
+    ('2018-03', 'Section 232: 25% tariff on steel, including GOES', 'https://www.everycrsreport.com/reports/R48933.html'),
+    ('2019-05-17', 'U.S.-Mexico joint statement on steel (transshipment monitoring)', 'https://ustr.gov/about-us/policy-offices/press-office/press-releases/2020/november/ustr-statement-successful-conclusion-steel-negotiations-mexico'),
+    ('2020-11-05', 'Mexico monitors exports of laminations/cores made from non-North American GOES; Mexico excluded from any Section 232 transformer action', 'https://ustr.gov/about-us/policy-offices/press-office/press-releases/2020/november/ustr-statement-successful-conclusion-steel-negotiations-mexico'),
+    ('2021-11-18', 'Commerce publishes Section 232 transformer/GOES report (finding: imports threaten national security)', FR2021),
+    ('2024-03', 'DOE grant up to $75M for Butler Works induction slab reheat furnaces (electrical steel)', 'https://www.sec.gov/Archives/edgar/data/764065/000076406525000058/clf-20241231.htm'),
+    ('2024-04', 'DOE distribution-transformer efficiency rule; compliance 2029-04-23; ~75% of market can comply with GOES', DOE_DT_RULE),
+    ('2025-06', 'Section 232 steel tariff raised to 50%', 'https://www.everycrsreport.com/reports/R48933.html'),
+    ('2025-08-15', 'Commerce adds DT cores and laminations to Section 232 derivatives at 50%', 'https://www.everycrsreport.com/reports/R48933.html'),
+    ('2026-06-15', 'DOE RFI re-examines the DT standard; compliance date still 2029-04-23', 'https://www.energy.gov/cmei/articles/doe-issues-request-information-rfi-energy-conservation-standards-distribution'),
+    ('2026-07-01', 'DLA awards Cliffs GOES stockpile IDIQ (up to $400M; up to 53,000 short tons stated)', 'https://www.steelmarketupdate.com/2026/07/06/cliffs-awarded-400m-goes-contract-from-department-of-war/'),
+)
+ADCVD_ORDERS_ON_GOES_IN_FORCE = False  # corrects RESEARCH_PLAN.md Phase 4 ("which are still in force")
+
+
+def phase4_prices(path: Path = COMTRADE_PATH) -> dict[int, dict]:
+    """Measured price series: U.S. GOES import unit value ($/kg, U.S.-reported trade) and BLS transformer PPI."""
+    rows, out = _partner_rows(path), {}
+    for y in range(2015, 2026):
+        out[y] = {'goes_import_usd_per_kg': _sum(rows, GOES_HS6, y, 'M', 'value_usd') / _sum(rows, GOES_HS6, y, 'M', 'net_kg'),
+                  'transformer_ppi': TRANSFORMER_PPI[y]}
+    return out
