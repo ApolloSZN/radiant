@@ -3,7 +3,7 @@
 Use this as the full instruction for each scheduled run. It overrides any "next action" in older run logs.
 
 ## Context in three lines
-- Radiant's main finding (Run 053): U.S. reliance on foreign grain-oriented electrical steel (GOES) was ~33% of use in 2019 (27 kt sheet + ~68 kt embodied in imported cores, out of ~288 kt). Grid expansion pushes it to at least 41–44% (155–175 kt/yr foreign in all forms), even if the sole U.S. producer made only GOES at full capacity. See `all_forms_view()` in `radiant/data/goes_import_floor.py`. The old "3–4× 2019 imports" headline counted sheet imports only and is withdrawn.
+- Radiant's main finding (Run 061, research plan Phase 5): counting sheet, cores and finished transformers, 51–65% of U.S. GOES use in 2019 (282–376 kt) was foreign; it stays at 46% or more through 2035 in every scenario. See `radiant/data/goes_balance.py`. The Run 053 "33% → 41–44%" headline is withdrawn (288 kt double counted cores). Follow `docs/RESEARCH_PLAN.md`; the GPT scheduled task stays paused until the owner resumes it.
 - The owner has no computer access for now. The repo is not on GitHub yet; Claude is handling the push separately. **Do not work on GitHub, CI, release gates, receipts, fingerprints, Docker or workflows.** RUN_PROTOCOL §6.7 freezes all of that.
 - Runs 031–038 added no new facts. That must not happen again.
 

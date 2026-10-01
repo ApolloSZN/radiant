@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 COMTRADE_PATH = Path('data/goes/research/comtrade_us_goes_forms.csv')
@@ -91,6 +92,13 @@ PHASE0_FACTS = (COMMERCE_2019_CONSUMPTION_CORE_COALITION, COMMERCE_2019_SHEET_IM
                 AK_2007_GOES_CAPACITY_PLAN, CLIFFS_ELECTRICAL_CAPACITY_2020)
 
 
+@lru_cache(maxsize=4)
+def _load(path: str) -> tuple[dict, ...]:
+    """Parse the Comtrade CSV once per path (read-only rows)."""
+    with Path(path).open() as f:
+        return tuple(csv.DictReader(f))
+
+
 def comtrade_world_kt(year: int, flow: str, codes: tuple[str, ...] = GOES_HS6, path: Path = COMTRADE_PATH) -> float | None:
     """U.S.-reported world total net weight (kt) for a flow (M, X, DX, RX); None if absent.
 
@@ -99,8 +107,7 @@ def comtrade_world_kt(year: int, flow: str, codes: tuple[str, ...] = GOES_HS6, p
     """
     if not Path(path).exists():
         return None
-    rows = [r for r in csv.DictReader(Path(path).open())
-            if int(r['year']) == year and r['flow'] == flow and r['hs6'] in codes]
+    rows = [r for r in _load(str(path)) if int(r['year']) == year and r['flow'] == flow and r['hs6'] in codes]
     total, found = 0.0, False
     for c in codes:
         world = [r for r in rows if r['hs6'] == c and r['partner_code'] == '0']
@@ -257,7 +264,7 @@ PHASE2_FACTS = (DOE2022_GOES_SHARE_OF_TRANSFORMER_WEIGHT, NLR2026_GOES_SHARE_OF_
 
 
 def _partner_rows(path: Path = COMTRADE_PATH) -> list[dict]:
-    return [r for r in csv.DictReader(Path(path).open()) if r['partner_code'] != '0']
+    return [r for r in _load(str(path)) if r['partner_code'] != '0']
 
 
 def _sum(rows, codes, year, flow, field, partners=None) -> float:

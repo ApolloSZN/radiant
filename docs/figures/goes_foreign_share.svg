@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" role="img" aria-labelledby="t d" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+<title id="t">Foreign share of U.S. GOES use, all forms, 2015-2035</title>
+<desc id="d">Range bands. History 2015-2025 (identified years 2017 and 2019 shown as whiskers, other years are model ranges); projections to 2035 for no change and best case. The withdrawn Run 053 figure of 33 percent is shown dashed.</desc>
+<style>
+svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--grid:#e4e3df;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a}
+@media (prefers-color-scheme: dark){svg{--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#8f8e86;--grid:#33332f;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)} text{fill:var(--ink2);font-size:12px} .title{fill:var(--ink);font-size:15px;font-weight:600}
+.grid{stroke:var(--grid);stroke-width:1} .fill{stroke:none} .edge{fill:none;stroke-width:2}
+.hist.fill{fill:var(--s1);opacity:.18} .hist.edge{stroke:var(--s1)} .cur.fill{fill:var(--s2);opacity:.18} .cur.edge{stroke:var(--s2)}
+.best.fill{fill:var(--s3);opacity:.18} .best.edge{stroke:var(--s3)} .wh{stroke:var(--s1);stroke-width:2} .dot{fill:var(--s1);stroke:var(--surface);stroke-width:2}
+.old{stroke:var(--muted);stroke-width:2;stroke-dasharray:5 4} .lab{fill:var(--ink);font-size:12px} .sw1{fill:var(--s1)} .sw2{fill:var(--s2)} .sw3{fill:var(--s3)}
+</style>
+<rect class="bg" width="760" height="470"/>
+<text class="title" x="64" y="26">Foreign share of U.S. GOES use, all forms, 2015–2035</text>
+<text x="64" y="44">Sheet + GOES inside imported cores and finished transformers. Bands are ranges, not confidence intervals.</text>
+<line class="grid" x1="64" x2="570" y1="384.0" y2="384.0"/><text x="56" y="388.0" text-anchor="end">0%</text>
+<line class="grid" x1="64" x2="570" y1="305.5" y2="305.5"/><text x="56" y="309.5" text-anchor="end">25%</text>
+<line class="grid" x1="64" x2="570" y1="227.0" y2="227.0"/><text x="56" y="231.0" text-anchor="end">50%</text>
+<line class="grid" x1="64" x2="570" y1="148.5" y2="148.5"/><text x="56" y="152.5" text-anchor="end">75%</text>
+<line class="grid" x1="64" x2="570" y1="70.0" y2="70.0"/><text x="56" y="74.0" text-anchor="end">100%</text>
+<text x="64.0" y="402" text-anchor="middle">2015</text>
+<text x="165.2" y="402" text-anchor="middle">2019</text>
+<text x="317.0" y="402" text-anchor="middle">2025</text>
+<text x="443.5" y="402" text-anchor="middle">2030</text>
+<text x="570.0" y="402" text-anchor="middle">2035</text>
+<line class="grid" x1="317.0" x2="317.0" y1="70" y2="384"/><text x="323.0" y="82">projection →</text>
+<polygon class="hist fill" points="64.0,130.1 89.3,157.6 114.6,164.3 139.9,167.9 165.2,179.4 190.5,178.0 215.8,166.1 241.1,154.9 266.4,155.6 291.7,152.6 317.0,150.4 317.0,236.2 291.7,230.8 266.4,248.6 241.1,295.1 215.8,261.0 190.5,251.5 165.2,222.4 139.9,253.9 114.6,211.0 89.3,270.9 64.0,240.5"/><polyline class="hist edge" points="64.0,130.1 89.3,157.6 114.6,164.3 139.9,167.9 165.2,179.4 190.5,178.0 215.8,166.1 241.1,154.9 266.4,155.6 291.7,152.6 317.0,150.4"/><polyline class="hist edge" points="64.0,240.5 89.3,270.9 114.6,211.0 139.9,253.9 165.2,222.4 190.5,251.5 215.8,261.0 241.1,295.1 266.4,248.6 291.7,230.8 317.0,236.2"/>
+<polygon class="cur fill" points="317.0,150.4 342.3,140.5 443.5,128.0 570.0,120.5 570.0,163.0 443.5,169.8 342.3,175.1 317.0,236.2"/><polyline class="cur edge" points="317.0,150.4 342.3,140.5 443.5,128.0 570.0,120.5"/><polyline class="cur edge" points="317.0,236.2 342.3,175.1 443.5,169.8 570.0,163.0"/>
+<polygon class="best fill" points="317.0,150.4 342.3,168.9 443.5,169.4 570.0,156.4 570.0,229.4 443.5,240.9 342.3,217.3 317.0,236.2"/><polyline class="best edge" points="317.0,150.4 342.3,168.9 443.5,169.4 570.0,156.4"/><polyline class="best edge" points="317.0,236.2 342.3,217.3 443.5,240.9 570.0,229.4"/>
+<line class="wh" x1="114.6" x2="114.6" y1="164.3" y2="211.0"/><circle class="dot" cx="114.6" cy="187.6" r="5"/>
+<line class="wh" x1="165.2" x2="165.2" y1="179.4" y2="222.4"/><circle class="dot" cx="165.2" cy="200.9" r="5"/>
+<text class="lab" x="165.2" y="95.1" text-anchor="middle">2019 (identified): 51%–65%</text>
+<line class="old" x1="64.0" x2="317.0" y1="280.4" y2="280.4"/><text x="68.0" y="296.4">Withdrawn Run 053: 33%</text>
+<text class="lab" x="578.0" y="145.7">No change 70%–84%</text>
+<text class="lab" x="578.0" y="196.9">Best case* 49%–72%</text>
+<rect class="sw1" x="64" y="420" width="12" height="12" rx="2"/><text x="82" y="430">History</text>
+<rect class="sw2" x="184" y="420" width="12" height="12" rx="2"/><text x="202" y="430">No change</text>
+<rect class="sw3" x="304" y="420" width="12" height="12" rx="2"/><text x="322" y="430">Best case*</text>
+<text x="64" y="454">*Butler +25% by 2028, no GOES exported. Whiskers = identified years. Source: radiant.data.goes_balance</text>
+</svg>

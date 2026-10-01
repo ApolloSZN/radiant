@@ -41,7 +41,7 @@ GOES import prices fell from 2015 to 2019, then **doubled by 2023** ($1.94 → $
 | SPX Transformer Solutions | Waukesha, WI | power transformers | 70 | 200+ jobs | c. 2025 | secondhand |
 | ERMCO | West Tennessee | distribution transformers | — | three-phase project; 400 jobs; $54.1M tax-credit financing | phased | secondhand |
 
-About **$1.3 billion** of disclosed investment across 11 announcements. Most add power-transformer capacity (Hitachi, Siemens, Hyundai, Hyosung, Prolec GE, Virginia Transformer, WEG, SPX). **None states where its GOES will come from.** Most of these makers are foreign-owned (Japan/Switzerland, Germany, Korea ×2, Brazil) and historically used foreign GOES. More U.S. transformer assembly does not automatically mean more U.S. GOES.
+About **$1.46 billion** of disclosed investment across 11 announcements. Most add power-transformer capacity (Hitachi, Siemens, Hyundai, Hyosung, Prolec GE, Virginia Transformer, WEG, SPX). **None states where its GOES will come from.** Most of these makers are foreign-owned (Japan/Switzerland, Germany, Korea ×2, Brazil) and historically used foreign GOES. More U.S. transformer assembly does not automatically mean more U.S. GOES.
 
 ## Policy timeline
 - **1994-06** — AD orders on GOES from Japan and Italy; CVD on Italy. [source](https://www.govinfo.gov/content/pkg/FR-2006-03-28/pdf/E6-4477.pdf)

@@ -292,6 +292,9 @@ def goes_import_floor_result(scenario_capacity_multiplier: float | None = 1.25) 
         'breakeven_baseline_kt': breakeven,
         'baseline_decline_needed_for_zero_floor': tuple(1 - b / base for b in breakeven),
         'identified': True,
+        'status': 'withdrawn_run_061',
+        'withdrawal_reason': ('Uses 220 kt as the 2019 sheet baseline; Phase 0 shows sheet use was ~146-150 kt and '
+                              '220 kt is all-forms use. Kept for the record; superseded by radiant.data.goes_balance.'),
         'evidence_class': 'identified_conditional_bound',
         'conditions': [
             'non-grid GOES use stays near its 2019 level (break-even baseline reported)',
@@ -401,7 +404,13 @@ def all_forms_view() -> dict:
         'floor_multiple_of_2019_foreign_all_forms': tuple(f / foreign_2019 for f in floor),
         'foreign_share_floor': tuple(f / n for f, n in zip(floor, need)),
         'sheet_only_multiple_withdrawn_as_headline': True,
-        'evidence_class': 'identified_conditional_bound',
+        'status': 'withdrawn_run_061',
+        'withdrawal_reason': ('Research plan Phase 0/3: the 220 kt base already includes the 68 kt of cores (Core '
+                              'Coalition all-forms estimate), so 288 kt double counts them; sheet imports were not '
+                              'netted for re-exports; finished-transformer imports were omitted, which biases the '
+                              'foreign share down, not neutrally.'),
+        'superseded_by': 'radiant.data.goes_balance.headline',
+        'evidence_class': 'withdrawn_negative_result',
         'conditions': ['non-grid GOES use stays near 2019 (sheet 220 kt + embodied cores 68 kt)',
                        '68 kt embodied-core figure is a Commerce estimate from industry weight data, not customs tonnage',
                        'finished-transformer imports excluded on both sides'],

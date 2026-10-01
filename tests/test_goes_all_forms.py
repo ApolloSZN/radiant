@@ -37,3 +37,10 @@ def test_2024_2025_lamination_trade_counts_are_context_not_tonnage():
     assert all_forms_view()['foreign_goes_2019_all_forms_kt'] == 95.0
     sheet = goes_import_floor_result()['import_floor_kt']
     assert all_forms_view()['foreign_goes_floor_all_forms_kt'] == (sheet[0] + 68.0, sheet[1] + 68.0)
+
+
+def test_run053_all_forms_headline_is_withdrawn_and_superseded():
+    v = all_forms_view()
+    assert v['status'] == 'withdrawn_run_061' and v['evidence_class'] == 'withdrawn_negative_result'
+    assert 'double counts' in v['withdrawal_reason'] and v['superseded_by'] == 'radiant.data.goes_balance.headline'
+    assert goes_import_floor_result()['status'] == 'withdrawn_run_061'

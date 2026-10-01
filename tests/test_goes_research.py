@@ -133,3 +133,7 @@ def test_phase4_expansions_and_prices():
     assert p[2019]['goes_import_usd_per_kg'] == pytest.approx(1.94, abs=0.01)
     assert p[2023]['goes_import_usd_per_kg'] > 2 * p[2019]['goes_import_usd_per_kg']  # GOES import price doubled by 2023
     assert p[2025]['transformer_ppi'] / p[2019]['transformer_ppi'] > 1.7
+
+
+def test_phase4_disclosed_expansion_total_matches_docs():
+    assert sum(e['usd_m'] or 0 for e in g.TRANSFORMER_EXPANSIONS) == 1457

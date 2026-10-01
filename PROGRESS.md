@@ -9,7 +9,7 @@
 | Forecasting | **claim withdrawn** (loses to rolling-3; online learners also fail); published as negative result |
 | Historical-vintage replay | strict BLS replay passes integrity; predictive model loses (kept) |
 | Transformer case | identified macro import-dependence bound (2019) |
-| GOES supply | **headline corrected (Run 053): foreign GOES in all forms rises from ~33% of U.S. use (2019) to at least 41–44% (155–175 kt/yr, 1.6–1.8× 2019)**; sheet-channel floor 87–107 kt/yr if core imports stay flat; "3–4×" withdrawn as headline; no shortage claimed |
+| GOES supply | **rebuilt (Run 061): 51–65% of 2019 U.S. GOES use was foreign in all forms (sheet + cores + finished transformers, 282–376 kt); ≥46% through 2035 in every scenario**; Run 053 "33% → 41–44%" withdrawn (288 kt double counted cores); no shortage claimed |
 | Release rule | ADR 006 unchanged; release infrastructure frozen under RUN_PROTOCOL §6.7 until a real hosted run exists |
 | Tests | **149 passing** |
 | Strict eval | **exit 0** |

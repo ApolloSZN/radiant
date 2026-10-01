@@ -1,6 +1,17 @@
 # What Radiant found, in plain language
 
-## Run 053 — the "3–4× more imports" headline was wrong; the corrected one is sturdier
+## Run 061 (Research plan Phase 5) — rebuilt from a full balance sheet: most U.S. transformer steel is foreign
+
+![Foreign share of U.S. GOES use, 2015–2035](figures/goes_foreign_share.svg)
+
+GOES reaches American transformers three ways: as sheet, inside imported cores, and inside finished imported transformers. Phases 0–4 sourced each one. Counting all three, the U.S. used about **282–376 kt of GOES in 2019, and 51–65% of it was foreign.** Counting only sheet and cores, as Commerce did, the foreign share was 36–40%. America's only mill made about 164–169 kt that year, comfortably inside its ~227 kt ceiling. It also exported 35 kt, and since 2021 most exports have gone to the Canadian and Mexican core makers.
+
+Looking ahead, demand grows with distribution-transformer replacement and the transmission build-out. Under every scenario tested, the foreign share stays at **46% or more through 2035** (49–72% in 2035), even if Cleveland-Cliffs adds 25% at Butler and keeps every ton at home. With no change it reaches 70–84%. Building more transformer plants in the U.S. does not change this. The steel inside them still has to come from somewhere, and only one U.S. mill makes it.
+
+What we can't claim: a shortage, prices, or timing. Only 2017 and 2019 production can be inferred, so other years use a stated model range. The core and transformer channels are estimates with methods shown in `data/goes/research/`.
+
+## Run 053 — WITHDRAWN in Run 061. The "3–4× more imports" headline was wrong; this correction was also wrong
+*Withdrawn: the 288 kt base counted the 68 kt of cores twice (the 220 kt was already all-forms use), sheet imports were not netted for re-exports, and imported finished transformers were left out. Kept below as a negative result (ADR 006).*
 The old headline compared the future import floor with 2019 **sheet** imports only (27 kt). Run 040 recorded Commerce's estimate that another **68 kt of GOES arrived already built into imported transformer cores** in 2019. The national-lab grid number counts all GOES in new transformers, no matter where the cores are made, so the fair comparison counts foreign steel in every form on both sides.
 
 Like for like: the U.S. used about **288 kt of GOES in all forms in 2019, and about 95 kt (33%) of it was foreign**. Add the grid buildout and, even if America's only producer made nothing but GOES at full capacity, foreign GOES must reach **at least 155–175 kt a year: 1.6–1.8× 2019, or 41–44% of U.S. use.** The old 87–107 kt sheet number is the same physics, but only holds if core imports stay flat; dividing it by sheet imports overstated the jump.
@@ -331,6 +342,6 @@ The 216 kt "all forms" figure (Commerce, and Radiant after Phase 0) still leaves
 
 ## Run 060 (Research plan Phase 4) — prices doubled, lead times tripled, and the plan's AD/CVD premise was wrong
 
-The money tells the same story as the tonnes. The price of imported GOES roughly doubled between 2019 and 2023 ($1.94 to $4.04/kg) and was still about 70% higher in 2025. The BLS transformer price index rose 76% over 2019–2025. Lead times went from about a year in 2021 to about 2–3 years in 2024, and LPTs were quoted at up to five years. Distribution-transformer waits eased to about 30 weeks by mid-2025. Eleven transformer-plant expansions since 2022 disclose about $1.3 billion of investment, mostly in power transformers. None says where its GOES will come from, and most of the companies are foreign-owned.
+The money tells the same story as the tonnes. The price of imported GOES roughly doubled between 2019 and 2023 ($1.94 to $4.04/kg) and was still about 70% higher in 2025. The BLS transformer price index rose 76% over 2019–2025. Lead times went from about a year in 2021 to about 2–3 years in 2024, and LPTs were quoted at up to five years. Distribution-transformer waits eased to about 30 weeks by mid-2025. Eleven transformer-plant expansions since 2022 disclose about $1.46 billion of investment, mostly in power transformers. None says where its GOES will come from, and most of the companies are foreign-owned.
 
 One correction to the research plan: no anti-dumping or countervailing duty orders on GOES are in force. The 1994 orders were revoked in 2006, and the 2014 cases all failed at the USITC. GOES, and since August 2025 cores and laminations, face the Section 232 steel tariff, now 50%. Mexico is exempt from any transformer action under a 2020 monitoring deal. Details: `data/goes/research/phase_4.md`.

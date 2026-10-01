@@ -4,7 +4,7 @@
 
 Radiant is an evidence-first system for testing claims about industrial and technological systems. It separates what is measured, what is only bounded, and what is assumed, and it tracks when each fact became knowable.
 
-Its main finding: in 2019 about a third of the transformer steel America used came from abroad, mostly hidden inside imported transformer cores. The grid buildout pushes that to at least 41–44%, even if America's only producer made nothing but that steel at full capacity. I originally headlined it as "3–4× more imports," but that only counted steel arriving as sheets. Once a Commerce estimate of steel inside imported cores was in the data, I corrected my own headline. My early forecasting result also failed a fair-baseline test, so I withdrew it.
+Its main finding: once you count the steel inside imported cores and finished transformers, about half to two-thirds (51–65%) of the transformer steel America used in 2019 was foreign, and it stays at 46% or more through 2035 in every scenario I tested, even if the only U.S. mill expands and stops exporting. I got here by withdrawing my own headline twice. First "3–4× more imports" counted only sheet. Then "33% rising to 41–44%" turned out to double count imported cores, because the 220 kt "consumption" figure everyone cites already included them, and it left out imported transformers. A full year-by-year balance sheet, built from trade data, SEC filings and federal reports, fixed both. My early forecasting result also failed a fair-baseline test, so I withdrew it.
 
 ## Two-minute version
 
@@ -167,4 +167,4 @@ A useful nuance is that U.S. customs data on GOES sheet miss indirect dependence
 ### Run 054 follow-up: do we have newer evidence that imported transformer components still matter?
 **30 seconds:** Yes. A 2025 Cleveland-Cliffs federal-docket filing reproduces USITC DataWeb counts showing about 147.7 million imported lamination units in 2024 under two transformer-part HTS lines, with Mexico supplying about 129.9 million. January-February 2025 was 6% above the same 2024 period. I did not convert those counts to GOES tonnes because the source gives units, not weights.
 
-**Likely follow-up — why doesn't this update the 41–44% headline?** The headline is a mass balance. A count of laminations cannot replace a mass estimate without a defensible weight distribution. The newer table confirms that the derivative channel persists, but the latest embodied-GOES tonnage remains unidentified.
+**Likely follow-up — why didn't this change the headline at the time?** The headline is a mass balance. A count of laminations cannot replace a mass estimate without a defensible weight distribution. The newer table confirms that the derivative channel persists, but the latest embodied-GOES tonnage remains unidentified.
