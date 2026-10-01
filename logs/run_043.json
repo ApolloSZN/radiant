@@ -1,0 +1,49 @@
+{
+  "run": 43,
+  "timestamp": "2026-09-30T17:32:00Z",
+  "artifact": "v0.14-rc31",
+  "starting_state": "run_042_rc30",
+  "objective": "add new primary-source GOES evidence without modifying frozen release infrastructure",
+  "sources": [
+    "https://public-inspection.federalregister.gov/2026-11314.pdf",
+    "https://hts.usitc.gov/"
+  ],
+  "new_evidence_ids": [
+    "US2026_SECTION232_GOES_STEEL_ARTICLE_TARIFF",
+    "USITC2026_HTS_GOES_COLUMN1_GENERAL_RATE"
+  ],
+  "files_changed": [
+    "radiant/data/goes_import_floor.py",
+    "tests/test_goes_import_floor.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "PROGRESS.md",
+    "logs/run_043.md",
+    "logs/run_043.json"
+  ],
+  "commands": [
+    "pytest -q",
+    "python -m radiant.eval --strict"
+  ],
+  "tests": {
+    "passed": 136,
+    "failed": 0
+  },
+  "quantitative_outputs": {
+    "goes_import_floor_kt": [
+      87.203815,
+      107.203815
+    ],
+    "section232_additional_rate": 0.5,
+    "column1_general_rate": 0.0
+  },
+  "rejected": [
+    "No official published 2020-2025 annual GOES tonnage table located",
+    "No tariff effect size inferred"
+  ],
+  "decision": "tariff evidence is context only; physical floor unchanged",
+  "blocker": "official annual 2020-2025 U.S. GOES direct-import tonnes absent",
+  "ci_status": "release infrastructure frozen; local verification green",
+  "weakest_link": "observed U.S. GOES trade panel",
+  "next_action": "obtain official annual U.S. direct GOES import tonnes 2020-2025 with explicit HTS coverage"
+}

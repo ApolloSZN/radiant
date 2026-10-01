@@ -1,0 +1,234 @@
+
+=== Toy protocell [chemical] self-producing ===
+{
+  "pass": true,
+  "core": [
+    "r1",
+    "r2",
+    "r3",
+    "r4"
+  ],
+  "coverage": 0.8
+}
+
+=== Toy research lab [lab] self-producing ===
+{
+  "pass": true,
+  "core": [
+    "buy_instrument",
+    "design_protocol",
+    "fit_model",
+    "run_experiment",
+    "seed_protocol",
+    "write_code"
+  ],
+  "coverage": 1.0
+}
+
+=== Toy industrial region [region] self-producing ===
+{
+  "pass": true,
+  "core": [
+    "electrolysis",
+    "haber",
+    "import_power",
+    "make_electrolyzer",
+    "make_furnace",
+    "make_pv",
+    "make_reactor",
+    "make_tools",
+    "pv_generate",
+    "refine_si",
+    "smelt"
+  ],
+  "coverage": 1.0
+}
+
+=== Criticality ranking (processes lost if removed) ===
+[
+  [
+    "food:ore",
+    10
+  ],
+  [
+    "process:make_furnace",
+    10
+  ],
+  [
+    "process:make_tools",
+    10
+  ],
+  [
+    "process:smelt",
+    10
+  ],
+  [
+    "food:sand",
+    3
+  ],
+  [
+    "process:make_electrolyzer",
+    3
+  ]
+]
+
+=== Knockout: cut ore imports ===
+{
+  "dropped": [
+    "electrolysis",
+    "haber",
+    "make_electrolyzer",
+    "make_furnace",
+    "make_pv",
+    "make_reactor",
+    "make_tools",
+    "pv_generate",
+    "refine_si",
+    "smelt"
+  ],
+  "root_causes": [
+    "supply_cut:ore"
+  ]
+}
+
+=== Counterfactual: cut grid power, 5 years ===
+{
+  "core_size": {
+    "baseline": {
+      "p10": 8.0,
+      "p50": 8.0,
+      "p90": 9.0,
+      "mean": 8.495
+    },
+    "intervention": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 8.0,
+      "mean": 3.946
+    }
+  },
+  "adjacency_delta": {
+    "p10": -8.0,
+    "p50": -8.0,
+    "p90": -1.0,
+    "mean": -4.549
+  },
+  "trace_sample": {
+    "import_power": {
+      "p_core_baseline": 1.0,
+      "p_core_intervention": 0.0,
+      "process_removed_by_intervention": false,
+      "feasible_at_mean": {
+        "baseline": true,
+        "intervention": true
+      },
+      "thresholds": [],
+      "raf_pruning_at_mean": {
+        "round": 0,
+        "missing_inputs": [
+          "grid_power"
+        ],
+        "missing_catalyst": []
+      },
+      "inputs": [
+        "grid_power"
+      ],
+      "catalysts": [],
+      "supply_cut": [
+        "grid_power"
+      ]
+    },
+    "make_electrolyzer": {
+      "p_core_baseline": 1.0,
+      "p_core_intervention": 0.493,
+      "process_removed_by_intervention": false,
+      "feasible_at_mean": {
+        "baseline": true,
+        "intervention": true
+      },
+      "thresholds": [],
+      "raf_pruning_at_mean": {
+        "round": 0,
+        "missing_inputs": [
+          "electricity",
+          "metal"
+        ],
+        "missing_catalyst": [
+          "fab_tools"
+        ]
+      },
+      "inputs": [
+        "electricity",
+        "metal"
+      ],
+      "catalysts": [
+        "fab_tools"
+      ],
+      "supply_cut": [
+        "grid_power"
+      ]
+    }
+  },
+  "result_hash": "75a073d8ef9e8bf4008fd4d7ab21a44c4fb329a485abd0210dff6bdae69562fe"
+}
+
+=== Counterfactual: halve electrolyzer cost ===
+{
+  "p_core_haber": {
+    "baseline": 0.001,
+    "intervention": 0.6435
+  },
+  "trace": {
+    "electrolysis": {
+      "p_core_baseline": 0.001,
+      "p_core_intervention": 0.6435,
+      "process_removed_by_intervention": false,
+      "feasible_at_mean": {
+        "baseline": false,
+        "intervention": true
+      },
+      "thresholds": [
+        {
+          "metric": "electrolyzer_cost",
+          "source": "ILLUSTRATIVE",
+          "crossing_years_median_baseline": 15.5075958123,
+          "crossing_years_median_intervention": 3.776552443
+        }
+      ],
+      "raf_pruning_at_mean": null,
+      "inputs": [
+        "electricity",
+        "water"
+      ],
+      "catalysts": [
+        "electrolyzer"
+      ],
+      "supply_cut": []
+    },
+    "haber": {
+      "p_core_baseline": 0.001,
+      "p_core_intervention": 0.6435,
+      "process_removed_by_intervention": false,
+      "feasible_at_mean": {
+        "baseline": true,
+        "intervention": true
+      },
+      "thresholds": [],
+      "raf_pruning_at_mean": {
+        "round": 0,
+        "missing_inputs": [
+          "hydrogen"
+        ],
+        "missing_catalyst": []
+      },
+      "inputs": [
+        "air",
+        "hydrogen"
+      ],
+      "catalysts": [
+        "reactor"
+      ],
+      "supply_cut": []
+    }
+  }
+}

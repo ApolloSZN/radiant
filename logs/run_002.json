@@ -1,0 +1,21 @@
+{
+  "run": "002",
+  "objective": "quantitative maintenance closure",
+  "tests": {
+    "passed": 21,
+    "failed": 0
+  },
+  "created": [
+    "radiant/engines/viability.py",
+    "tests/test_viability.py",
+    "db/migrations/003_quantitative_viability.sql",
+    "PROGRESS.md",
+    "logs/run_002.md"
+  ],
+  "result": {
+    "raf_distinct_from_material_viability": true,
+    "steady_state_lp": true
+  },
+  "binding_constraint": "real evidence ingestion and no-leak historical backtest",
+  "next": "NHGRI sequencing-cost ingestion + historical replay"
+}

@@ -1,0 +1,6 @@
+source_available_at,observation_date,value_usd,relation,source_tier,source_url,note
+2006-08-01,2006-08-01,10000000,approx,T0,https://www.genome.gov/19518500/2006-release-nhgri-aims-to-make-dna-sequencing-faster-more-cost-effective,"NHGRI release: around $10 million"
+2010-08-01,2010-08-01,20000,approx,T0,https://www.genome.gov/2010-news-feature-the-road-to-the-1000-genome--a-roundup-of-sequencing-technology-developments,"NHGRI feature: about $20,000"
+2010-09-13,2010-09-13,40000,upper_bound,T0,https://www.genome.gov/27541190/2010-release-nhgri-funds-development-of-third-generation-dna-sequencing-technologies,"NHGRI release: dipped below $40,000"
+2011-08-22,2011-08-22,20000,upper_bound,T0,https://www.genome.gov/27545118/2011-release-nhgri-funds-development-of-revolutionary-sequencing-technologies,"NHGRI release: dipped below $20,000"
+2012-09-14,2012-09-14,8000,upper_bound,T0,https://www.genome.gov/27550069/2012-release-new-nihnhgri-grants-to-harness-nanoscale-technologies-to-cut-dna-sequencing-costs,"NHGRI release: just under $8,000"

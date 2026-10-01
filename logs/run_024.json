@@ -1,0 +1,13 @@
+{
+  "run": 24,
+  "version": "v0.14-rc12",
+  "starting_state": "v0.14-rc11; 88 tests; release 9/11",
+  "objective": "falsifiable GOES supply-pressure comparison without unsupported shortage inference",
+  "files_changed": ["radiant/data/lpt_evidence_network.py", "tests/test_goes_supply_pressure.py", "PROGRESS.md", "logs/run_024.md", "logs/run_024.json"],
+  "tests": {"passed": 90, "failed": 0, "reproduction": "green"},
+  "quantitative_outputs": {"incremental_goes_kt_per_year": [94,114], "incremental_share_historical_consumption_lower_bound": 0.45, "static_total_requirement_index_lower_bound": 1.45, "shortage_identified": false},
+  "rejected_approaches": ["reverse-engineer apparent consumption using equality at 45%", "treat 2019 consumption as future supply capacity", "claim shortage from demand pressure alone"],
+  "ci_status": "local green; final release 9/11; hosted execution/completed-green absent",
+  "weakest_link": "vintage-aligned GOES supply-response evidence",
+  "next_action": "build authoritative vintage-tagged GOES production/trade/inventory panel and bound supply response"
+}

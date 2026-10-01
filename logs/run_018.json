@@ -1,0 +1,35 @@
+{
+  "run": 18,
+  "version": "v0.14-rc6",
+  "objective": "fix physical resource accounting and add finite-horizon non-depletion viability",
+  "starting_tests": 67,
+  "ending_tests": 71,
+  "tests_passed": true,
+  "reproduction_passed": true,
+  "release_gates": {
+    "passed": 9,
+    "total": 11,
+    "missing": [
+      "hosted_ci_execution",
+      "hosted_ci_completed_green"
+    ]
+  },
+  "files_changed": [
+    "radiant/engines/viability.py",
+    "tests/test_viability.py",
+    "PROGRESS.md",
+    "logs/run_018.md",
+    "logs/run_018.json"
+  ],
+  "failure": {
+    "first_attempt": "zero-variable LP rejected by scipy.linprog",
+    "resolution": "analytic inherited-stock feasibility branch"
+  },
+  "new_evidence": [
+    "all process-consumed resources now require internal production or explicit bounded external inflow",
+    "finite-horizon survival is distinct from non-depleting self-maintenance"
+  ],
+  "weakest_shipping": "hosted CI",
+  "weakest_science": "real causal effect identification / empirical cross-scale validation",
+  "next_action": "publish rc6 to intended Radiant repo and obtain hosted execution + completed-success evidence; otherwise deepen time-varying viability or real production parameterization"
+}

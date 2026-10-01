@@ -1,0 +1,51 @@
+{
+  "run": "017",
+  "version": "v0.14-rc5",
+  "timestamp": "2026-09-29T20:40:28.700112+00:00",
+  "objective": "Harden headline retrospective evaluation against reasonable specification choices while external hosted-CI blocker remains.",
+  "starting_state": "v0.14-rc4; 65 tests; final release 9/11; hosted CI unavailable.",
+  "files_changed": [
+    "radiant/data/eval_sensitivity.py",
+    "radiant/eval.py",
+    "tests/test_eval_sensitivity.py",
+    "docs/limitations.md",
+    "PROGRESS.md",
+    "logs/run_017.json",
+    "logs/run_017.md"
+  ],
+  "commands": [
+    "python -m pytest -q",
+    "python -m radiant.eval"
+  ],
+  "tests": "67/67 passing locally",
+  "quantitative_outputs": {
+    "sequencing_specification_sensitivity": {
+      "n_specifications": 16,
+      "min_relative_improvement": 0.7077879551800191,
+      "median_relative_improvement": 0.7606839647363719,
+      "max_relative_improvement": 0.8047253571959888,
+      "fraction_improving": 1.0,
+      "fraction_meeting_headline_threshold": 1.0
+    },
+    "battery_specification_sensitivity": {
+      "n_specifications": 9,
+      "min_relative_improvement": 0.10899791591940236,
+      "median_relative_improvement": 0.13856655594672918,
+      "max_relative_improvement": 0.18469983000363763,
+      "fraction_improving": 1.0,
+      "fraction_meeting_headline_threshold": 1.0
+    }
+  },
+  "failures_rejected": [
+    "Did not select the best specification from the grid as a new headline result.",
+    "Did not fabricate hosted-CI evidence or use an unrelated GitHub repository."
+  ],
+  "assumptions": [
+    "Specification grid is a robustness audit, not an exhaustive model universe."
+  ],
+  "blockers": [
+    "No accessible Radiant GitHub repository; hosted execution and completed-green evidence remain unavailable."
+  ],
+  "weakest_link": "External release verification; scientifically, broad cross-domain generalization remains weak.",
+  "exact_next_action": "Publish exact candidate to a Radiant GitHub repository, observe hosted execution and completed success, then run final verifier. If still externally blocked, continue falsification/robustness work without weakening gates."
+}

@@ -1,0 +1,1 @@
+{"run":29,"version":"v0.14-rc17","tests":{"passed":117,"failed":0},"strict_eval_exit":0,"quantitative_outputs":{"stockpile_max_kt_per_year":9.62,"floor_with_stockpile_kt":[96.8,116.8]},"ci_status":"simulated green; release 9/11","next_action":"owner push; goes-data workflow"}

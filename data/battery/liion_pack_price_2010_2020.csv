@@ -1,0 +1,12 @@
+date,pack_price_2020_usd_per_kwh,recorded_at,source_available_at,source_tier,source_url,scope,note
+2010-01-01,1191,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"NREL H2 2020 Solar Industry Update reproducing BloombergNEF 2020 survey; retrospective historical series"
+2011-01-01,924,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2012-01-01,726,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2013-01-01,668,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2014-01-01,592,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2015-01-01,384,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2016-01-01,355,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2017-01-01,316,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2018-01-01,295,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2019-01-01,220,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"
+2020-01-01,137,2021-04-01,2021-04-01,T0,https://www.nrel.gov/docs/fy21osti/79758.pdf,global_all_sector_average,"retrospective"

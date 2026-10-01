@@ -1,0 +1,49 @@
+{
+  "run": "022",
+  "version": "v0.14-rc10",
+  "starting_state": "v0.14-rc9 / Run 021; 80 tests green; release 9/11",
+  "objective": "Seek compatible physical LPT coefficients/bounds; if identification remains weak, implement distribution-free information-requirement analysis.",
+  "sources_consulted": [
+    "DOE 2012 Large Power Transformers and the U.S. Electric Grid",
+    "Siemens Energy Charlotte expansion page",
+    "Mecklenburg County / NC Commerce Charlotte expansion records",
+    "NC DEQ/Mecklenburg permitting resources"
+  ],
+  "files_changed": [
+    "radiant/engines/partial_identification.py",
+    "radiant/data/lpt_evidence_network.py",
+    "tests/test_information_value.py",
+    "PROGRESS.md",
+    "logs/run_022.md",
+    "logs/run_022.json"
+  ],
+  "commands": [
+    "web primary/public-source search",
+    "python -m pytest -q",
+    "bash scripts/reproduce.sh"
+  ],
+  "tests": "84/84 green; one-command reproduction green",
+  "quantitative_outputs": {
+    "doe_core_steel_300_500_mva_kg_per_unit": [
+      80000,
+      120000
+    ],
+    "conditional_57_unit_core_steel_kg_per_year": [
+      4560000,
+      6840000
+    ],
+    "charlotte_zero_lower_bound_serial_stages": 5
+  },
+  "failures_rejected": [
+    "Did not apply DOE 300-500 MVA core-steel coefficient to Charlotte as an unconditional BOM because Charlotte future MVA/product mix is not identified.",
+    "Did not call the structural measurement analysis expected VOI because no probability distribution over unknown capacities is justified.",
+    "Permitting searches did not expose compatible same-site core/winding/assembly/test annual capacities in this run."
+  ],
+  "assumptions": [
+    "57 units/year remains an announced future full-capacity target, not observed output.",
+    "4.56-6.84 million kg/year core-steel result is conditional on all 57 units falling in DOE 300-500 MVA reference class."
+  ],
+  "ci_status": "local reproduction green; final release 9/11; hosted execution/completed-green absent",
+  "weakest_link": "same-site positive lower bounds for Charlotte material/core/winding/assembly/qualified-output path; external hosted CI is shipping blocker",
+  "next_action": "Search utility procurement/specification records or manufacturer filings for Charlotte product mix and stage lower bounds; prioritize joint evidence because isolated output evidence cannot lift the serial path lower bound."
+}

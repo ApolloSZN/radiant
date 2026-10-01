@@ -1,0 +1,6 @@
+{"run": 28, "version": "v0.14-rc16", "starting_state": "v0.14-rc15; 102 tests; release 8/11; strict eval red",
+ "files_changed": ["radiant/eval.py", "radiant/release.py", "radiant/data/goes_import_floor.py", "tests/test_goes_import_floor.py", "tests/test_eval.py", "docs/adr/006-failed-claims-are-withdrawn-not-gating.md", "docs/RUN_PROTOCOL.md", "docs/FINDINGS.md", "docs/interview_walkthrough.md", "docs/limitations.md", "docs/EXTERNAL_INPUTS.md", "README.md", "PROGRESS.md", "logs/run_028.md", "logs/run_028.json"],
+ "tests": {"passed": 109, "failed": 0}, "strict_eval_exit": 0,
+ "quantitative_outputs": {"domestic_capacity_upper_kt": 226.8, "import_floor_kt": [87.2, 107.2], "multiple_of_2019_imports": [3.23, 3.97], "breakeven_baseline_decline": [0.396, 0.487], "scenario_plus25_floor_kt": [30.5, 50.5]},
+ "ci_status": "local green; release 9/11; hosted CI absent",
+ "next_action": "annual GOES trade 2019-2025; Cliffs 10-K shipments; Defense contract primary notice; DOE rule status"}

@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-09-29T16:36:14.999034+00:00",
+  "version": "v0.14-rc1",
+  "objective": "strict vintage replay and release candidate",
+  "tests": "58/58 local pass",
+  "eval": {
+    "schema": "radiant.eval.v1",
+    "all_passed": true,
+    "results": [
+      {
+        "name": "sequencing_prequential_selector",
+        "baseline": 0.7836061676611537,
+        "system": 0.17619967449608345,
+        "relative_improvement": 0.7751425629765135,
+        "threshold": 0.5,
+        "passed": true,
+        "metric": "MALE",
+        "evidence_class": "retrospective_real_data",
+        "note": "System must reduce error >=50% vs all-history on the regime-shift domain."
+      },
+      {
+        "name": "battery_prequential_selector",
+        "baseline": 0.1647936795055334,
+        "system": 0.14606996349334367,
+        "relative_improvement": 0.11361913920710183,
+        "threshold": 0.0,
+        "passed": true,
+        "metric": "MALE",
+        "evidence_class": "retrospective_real_data",
+        "note": "System must not beat a rolling baseline only by over-adapting; no-regression gate."
+      },
+      {
+        "name": "bls_strict_vintage_integrity",
+        "baseline": 0.27142857142857146,
+        "system": 0.3571428571428572,
+        "relative_improvement": -0.31578947368421056,
+        "threshold": -1.0,
+        "passed": true,
+        "metric": "MAE_pct_points",
+        "evidence_class": "strict_historical_vintage",
+        "note": "Strict archived-release replay. Predictive correction is allowed to fail; this gate tests no-leak vintage integrity and preserves the negative result."
+      }
+    ],
+    "limitations": [
+      "Sequencing and battery rows are retrospective real-data evaluations; the BLS row is a separate strict historical-vintage replay.",
+      "The BLS revision-correction model underperforms its no-correction baseline; its passing status certifies information-time integrity, not predictive superiority.",
+      "Passing this harness does not by itself establish causal intervention validity."
+    ]
+  },
+  "release": {
+    "schema": "radiant.release.v1",
+    "release": "v1.0",
+    "passed": true,
+    "gates": [
+      {
+        "name": "eval_harness_ci",
+        "passed": true,
+        "evidence": "artifacts/eval_report.json + CI workflow"
+      },
+      {
+        "name": "one_command_reproduction",
+        "passed": true,
+        "evidence": "scripts/reproduce.sh + Dockerfile"
+      },
+      {
+        "name": "readme_10_minute",
+        "passed": true,
+        "evidence": "README.md"
+      },
+      {
+        "name": "adrs",
+        "passed": true,
+        "evidence": "docs/adr/*.md"
+      },
+      {
+        "name": "limitations_negative_results",
+        "passed": true,
+        "evidence": "docs/limitations.md"
+      },
+      {
+        "name": "working_demo",
+        "passed": true,
+        "evidence": "examples/demo.py"
+      },
+      {
+        "name": "technical_writeup_1500_2500",
+        "passed": true,
+        "evidence": "docs/technical_writeup.md words=1786"
+      },
+      {
+        "name": "tests_ci_green",
+        "passed": true,
+        "evidence": "..........................................................               [100%]\n58 passed in 5.39s"
+      },
+      {
+        "name": "strict_no_leak_headline_evidence",
+        "passed": true,
+        "evidence": "strict passing eval rows=1"
+      }
+    ]
+  },
+  "hosted_ci_verified": false,
+  "phase": "1",
+  "phase2_started": false,
+  "weakest_link": "hosted CI verification",
+  "next_action": "observe hosted CI green or require hosted CI attestation"
+}

@@ -1,0 +1,15 @@
+{
+  "run": "007",
+  "version": "v0.8",
+  "timestamp": "2026-09-29T10:26:49.922068+00:00",
+  "objective": "first evidence-bound transformer constraint-resolution vertical slice",
+  "tests": "41/41",
+  "result": {
+    "scenario_baseline": 0.72,
+    "test_capacity_plus20": 0.78,
+    "gain_pct": 8.33333333333334
+  },
+  "epistemic_status": "numerical ranking is scenario validation, not empirical U.S. bottleneck inference",
+  "binding_constraint": "measured transformer process parameters/procurement microdata",
+  "next_action": "replace normalized parameters with measured/proxy distributions and run probabilistic sensitivity"
+}

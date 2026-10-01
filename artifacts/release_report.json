@@ -1,0 +1,63 @@
+{
+  "schema": "radiant.release.v1",
+  "release": "v1.0",
+  "mode": "final",
+  "passed": false,
+  "gates": [
+    {
+      "name": "eval_harness_ci",
+      "passed": true,
+      "evidence": "artifacts/eval_report.json + CI workflow; passing measured claimed rows=1"
+    },
+    {
+      "name": "one_command_reproduction",
+      "passed": false,
+      "evidence": "scripts/reproduce_container.sh + Dockerfile + passing source-bound host/clean-container reproduction receipts"
+    },
+    {
+      "name": "readme_10_minute",
+      "passed": true,
+      "evidence": "README.md"
+    },
+    {
+      "name": "adrs",
+      "passed": true,
+      "evidence": "docs/adr/*.md"
+    },
+    {
+      "name": "limitations_negative_results",
+      "passed": true,
+      "evidence": "docs/limitations.md"
+    },
+    {
+      "name": "working_demo",
+      "passed": true,
+      "evidence": "examples/demo.py + passing source-bound artifacts/demo_report.json"
+    },
+    {
+      "name": "technical_writeup_1500_2500",
+      "passed": true,
+      "evidence": "docs/technical_writeup.md words=2195"
+    },
+    {
+      "name": "tests_ci_green",
+      "passed": true,
+      "evidence": "source-bound artifacts/test_report.json returncode=0"
+    },
+    {
+      "name": "hosted_ci_execution",
+      "passed": false,
+      "evidence": "missing artifacts/hosted_ci_attestation.json"
+    },
+    {
+      "name": "hosted_ci_completed_green",
+      "passed": false,
+      "evidence": "missing artifacts/completed_ci_run.json"
+    },
+    {
+      "name": "strict_no_leak_headline_evidence",
+      "passed": true,
+      "evidence": "strict passing eval rows=2"
+    }
+  ]
+}

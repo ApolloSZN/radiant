@@ -1,0 +1,71 @@
+{
+  "run": 47,
+  "version": "v0.14-rc35",
+  "timestamp": "2026-09-30T16:38:30-05:00",
+  "starting_state": "v0.14-rc34 run046; 139 tests; strict eval exit 0; release infrastructure frozen",
+  "objective": "pursue official US GOES mass panel; otherwise add quantified authoritative supply evidence without scenario-to-fact conversion",
+  "sources": [
+    {
+      "name": "International Energy Agency, Energy Technology Perspectives 2023",
+      "url": "https://www.iea.org/reports/energy-technology-perspectives-2023/enabling-infrastructure",
+      "class": "intergovernmental agency"
+    },
+    {
+      "name": "U.S. Commerce SIMA Steel Tables",
+      "url": "https://www.trade.gov/feature-article/sima-steel-tables",
+      "class": "official government data portal"
+    },
+    {
+      "name": "U.S. Census International Trade API",
+      "url": "https://api.census.gov/data/timeseries/intltrade.html",
+      "class": "official government API documentation"
+    }
+  ],
+  "new_evidence": {
+    "id": "IEA2023_GLOBAL_GOES_CAPACITY_AND_CONCENTRATION",
+    "value": 3.8,
+    "unit": "million tonnes GOES/year global production capacity",
+    "period": "capacity described as current in ETP 2023; scenario demand 2022-2030",
+    "class": "intergovernmental_agency_capacity_and_scenario",
+    "related": {
+      "top5_capacity_share": "almost 85%",
+      "nze_2030_demand_mt_per_year": 6.0
+    }
+  },
+  "files_changed": [
+    "radiant/data/goes_import_floor.py",
+    "tests/test_goes_import_floor.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "PROGRESS.md",
+    "logs/run_047.md",
+    "logs/run_047.json"
+  ],
+  "commands": [
+    "pytest -q",
+    "python -m radiant.eval --strict"
+  ],
+  "tests": {
+    "passed": 140,
+    "failed": 0
+  },
+  "strict_eval_exit": 0,
+  "headline": {
+    "bitemporal_future_information_violations": {
+      "baseline": 9,
+      "system": 0
+    },
+    "goes_import_floor_kt_per_year": [
+      87.203815,
+      107.203815
+    ]
+  },
+  "rejected": [
+    "No third-party reconstructed US tonnage adopted",
+    "No 6 Mt scenario treated as observed demand",
+    "No global nameplate treated as US-available supply"
+  ],
+  "ci_status": "frozen/not touched under RUN_PROTOCOL 6.7",
+  "weakest_link": "official 2020-2025 US direct-GOES mass panel with explicit HTS coverage",
+  "next_action": "recover official annual US GOES import tonnes via SIMA static workbook or Census HS export outside restricted runtime"
+}

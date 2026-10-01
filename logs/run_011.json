@@ -1,0 +1,39 @@
+{
+  "run": 11,
+  "version": "v0.12",
+  "objective": "turn the v1.0 ship bar into executable infrastructure while pre-registering transformer causal falsification checks",
+  "starting_state": "v0.11; 50/50 tests; no CI-gated eval harness; no clean-machine reproduction template; effect identification unresolved",
+  "sources_consulted": [
+    "Prolec GE official Goldsboro expansion release, 2025-05-14",
+    "Hitachi Energy official South Boston groundbreaking release, 2026-06-29",
+    "Hitachi Energy official Mississippi expansion release, 2026-09-15",
+    "DOE Large Power Transformer Resilience Report, 2024"
+  ],
+  "files_created": ["radiant/eval.py","tests/test_eval.py","radiant/data/event_study.py","tests/test_event_study.py",".github/workflows/ci.yml","requirements.txt","Dockerfile","scripts/reproduce.sh","docs/adr/001-evidence-classes.md","docs/adr/002-raf-vs-material-viability.md","docs/adr/003-prequential-selection.md","artifacts/eval_report.json"],
+  "files_changed": ["README.md","PROGRESS.md","data/transformers/evidence.csv"],
+  "commands": ["pytest -q","python -m radiant.eval","python -m examples.demo"],
+  "tests": "54/54 passing locally",
+  "quantitative_outputs": {
+    "sequencing_baseline_MALE": 0.7836061676611537,
+    "sequencing_system_MALE": 0.17619967449608345,
+    "sequencing_relative_improvement": 0.7751425629765135,
+    "battery_rolling5_baseline_MALE": 0.1647936795055334,
+    "battery_system_MALE": 0.14606996349334367,
+    "battery_relative_improvement": 0.11361913920710183
+  },
+  "failures_rejected_approaches": [
+    "Did not label retrospective forecasting evals as strict historical-vintage evidence.",
+    "Did not convert Prolec medium-power capacity into LPT capacity.",
+    "Did not infer Hitachi absolute units/year from jobs, investment, facility size, or a relative doubling statement.",
+    "Event-study identification is structurally refused on failed pretrend or placebo checks."
+  ],
+  "architectural_decisions": [
+    "Headline evals now have explicit baseline, threshold, evidence class, and machine-readable pass/fail.",
+    "CI runs both tests and the eval gate.",
+    "Causal plant-panel analysis uses predeclared falsification checks before any effect can be marked identified."
+  ],
+  "ci_status": "workflow authored; local test/eval green; hosted GitHub execution unverified",
+  "unresolved_blockers": ["strict historical-vintage Gate 1", "real plant/order outcome panel", "public-ready technical write-up", "verified container and hosted CI", "README/demo ship polish"],
+  "weakest_link": "historical-vintage and causal effect-identification evidence",
+  "next": "build strict-vintage eval fixture and executable v1.0 ship-bar verifier that fails closed on missing evidence/artifacts"
+}

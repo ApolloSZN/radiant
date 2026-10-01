@@ -1,0 +1,24 @@
+{
+  "run": 23,
+  "version": "v0.14-rc11",
+  "starting_state": "v0.14-rc10; 84 tests; release 9/11",
+  "objective": "strengthen empirical LPT material parameterization without epistemic leakage",
+  "sources": [
+    "NLR/TP-6A40-97167 January 2026",
+    "Siemens Energy Charlotte expansion",
+    "USITC/DOE LPT evidence"
+  ],
+  "files_changed": [
+    "radiant/data/lpt_evidence_network.py",
+    "tests/test_lpt_material_reference.py",
+    "PROGRESS.md",
+    "docs/limitations.md",
+    "logs/run_023.md",
+    "logs/run_023.json"
+  ],
+  "tests": "88/88 green",
+  "reproduction": "green",
+  "ci_status": "final verifier 9/11; hosted execution and completed-green absent",
+  "weakest_link": "observed same-site stage capacity lower bounds and hosted CI",
+  "next_action": "compare NLR modeled material demand against vintage-aligned observed GOES/copper supply data"
+}

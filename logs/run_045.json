@@ -1,0 +1,11 @@
+{
+  "run": 45,
+  "artifact": "v0.14-rc33",
+  "objective": "GOES empirical grounding",
+  "new_evidence": ["DOE2022_GRID_SUPPLY_CHAIN_2020_DIRECT_GOES_IMPORT_VALUE"],
+  "observations": {"2020_hs722511_import_value_usd_million": 29.0, "south_korea_share": 0.85, "brazil_share": 0.06, "russia_share": 0.04},
+  "import_floor_kt": [87.203815, 107.203815],
+  "shortage_claim": false,
+  "ci": "frozen",
+  "next_action": "official 2020-2025 U.S. direct GOES tonnes with explicit HTS coverage"
+}

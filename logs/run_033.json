@@ -1,0 +1,76 @@
+{
+  "run": 33,
+  "version": "v0.14-rc21",
+  "timestamp_utc": "2026-09-30T09:38:24.097619+00:00",
+  "starting_state": "v0.14-rc20; 120/120 tests; strict eval green; release 9/11; hosted CI absent",
+  "objective": "Audit and harden the two remaining hosted-CI release gates before publishing the candidate.",
+  "sources_data_consulted": [
+    "repository release verifier",
+    "hosted_release validator",
+    "CI attestation generator",
+    "GitHub workflow definitions",
+    "Run 032 artifacts/logs"
+  ],
+  "files_changed": [
+    "radiant/release.py",
+    "tests/test_release.py",
+    "README.md",
+    "PROGRESS.md",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "docs/OWNER_HANDOFF.md",
+    "logs/run_033.md",
+    "logs/run_033.json"
+  ],
+  "code_schema_diffs": [
+    "bind hosted attestation to exact checked-out candidate SHA",
+    "bind completed CI record to exact candidate SHA",
+    "cross-check repository/SHA/run_id/run_url between hosted records",
+    "two release regression tests"
+  ],
+  "commands": [
+    "pytest -q",
+    "python -m radiant.eval --strict",
+    "python -m radiant.release"
+  ],
+  "tests_simulations": {
+    "pytest": "122 passed",
+    "strict_eval": "passed",
+    "final_release": "9/11; hosted gates false"
+  },
+  "quantitative_outputs": {
+    "tests_passed": 122,
+    "release_gates_passed": 9,
+    "release_gates_total": 11
+  },
+  "calibration_backtest_metrics": "unchanged; no new scientific claim",
+  "failures_rejected_approaches": [
+    "Rejected accepting any valid historical green CI record without exact-candidate binding.",
+    "Rejected mixing attestation from one run with completed-success metadata from another."
+  ],
+  "assumptions": [
+    "Git HEAD is the release-candidate identity in a real repository checkout.",
+    "Final v1.0 cannot be certified from an unversioned ZIP alone."
+  ],
+  "provenance": "No new external empirical data. Changes are release-integrity engineering derived from repository audit.",
+  "new_connections": [
+    "Scientific provenance and software release provenance require the same identity-binding principle: evidence must refer to the object being claimed."
+  ],
+  "decisions": [
+    "Hosted evidence is valid only for the exact candidate commit.",
+    "Attestation and completed-run record must identify the same GitHub run."
+  ],
+  "blockers": [
+    "No real hosted GitHub Actions run for rc21.",
+    "Annual GOES trade panel not yet acquired."
+  ],
+  "subsystem_state": {
+    "release_integrity": "hardened",
+    "scientific_eval": "green",
+    "hosted_ci": "not executed",
+    "goes_trade": "pending"
+  },
+  "ci_status": "local tests and strict eval green; hosted CI absent",
+  "weakest_link_subsystem": "hosted release execution",
+  "exact_next_action": "Push rc21 to GitHub, run ci for that exact commit, record completed success and require 11/11; then trigger fail-closed goes-data."
+}

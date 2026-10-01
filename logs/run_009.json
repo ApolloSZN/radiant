@@ -1,0 +1,18 @@
+{
+  "run": 9,
+  "version": "v0.10",
+  "objective": "distribution-free partial identification plus evidence-backed LPT macro inference",
+  "tests": "47/47",
+  "outputs": {
+    "lpt_2019_apparent_consumption": 750,
+    "import_share": 0.8226666666666667,
+    "implied_nameplate_capacity": 342.5,
+    "unused_nameplate_capacity": 205.5,
+    "residual_imports_full_utilization_bound": 411.5
+  },
+  "claims": {
+    "stage_bottleneck_identified": false,
+    "macro_import_dependence_not_eliminable_by_2019_unused_domestic_nameplate_capacity_alone": true
+  },
+  "next": "plant/order-level evidence and natural variation"
+}

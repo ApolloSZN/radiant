@@ -1,0 +1,15 @@
+{
+  "schema": "radiant.demo.v2",
+  "passed": true,
+  "source_fingerprint": "437f730ce529a85bb2d95ef294755192732aa7a9dbdedcf72391947f15919086",
+  "required_sections": [
+    "Toy protocell",
+    "Toy research lab",
+    "Toy industrial region",
+    "Criticality ranking",
+    "Counterfactual: cut grid power",
+    "Counterfactual: halve electrolyzer cost"
+  ],
+  "missing_sections": [],
+  "output": "artifacts/demo_output.txt"
+}

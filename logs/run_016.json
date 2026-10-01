@@ -1,0 +1,72 @@
+{
+  "run": "016",
+  "version": "v0.14-rc4",
+  "timestamp": "2026-09-29T19:41:54.339772+00:00",
+  "objective": "Harden headline evaluation under sampling uncertainty while preserving evidence classes; re-check external release blocker.",
+  "starting_state": "v0.14-rc3; 63 tests; final release gated on hosted execution/completed-success evidence.",
+  "files_created": [
+    "radiant/data/robustness.py",
+    "tests/test_robustness.py"
+  ],
+  "files_changed": [
+    "radiant/eval.py",
+    "docs/limitations.md",
+    "PROGRESS.md",
+    "artifacts/eval_report.json",
+    "artifacts/test_report.json",
+    "artifacts/release_report.json"
+  ],
+  "commands": [
+    "pytest -q",
+    "python -m radiant.eval",
+    "python -m radiant.release --run",
+    "bash scripts/reproduce.sh"
+  ],
+  "tests": "65/65 passing locally",
+  "quantitative_outputs": {
+    "sequencing": {
+      "n": 39,
+      "point_improvement": 0.7751425629765135,
+      "paired_bootstrap_draws": 10000,
+      "seed": 20260929,
+      "bootstrap_ci95": [
+        0.6583403295081864,
+        0.857371974265642
+      ],
+      "p_improvement_gt_0": 1.0,
+      "p_improvement_ge_50pct": 0.9999,
+      "leave_one_out_min_improvement": 0.7612850565768761,
+      "leave_one_out_max_improvement": 0.8050841707774867,
+      "interpretation": "Sampling robustness diagnostic only; does not upgrade retrospective evidence to historical-vintage evidence."
+    },
+    "battery": {
+      "n": 6,
+      "point_improvement": 0.11361913920710183,
+      "paired_bootstrap_draws": 10000,
+      "seed": 20260929,
+      "bootstrap_ci95": [
+        -0.08584922351721364,
+        0.23849616018430142
+      ],
+      "p_improvement_gt_0": 0.6663,
+      "p_improvement_ge_50pct": 0.0,
+      "leave_one_out_min_improvement": -0.02561965771047452,
+      "leave_one_out_max_improvement": 0.1442438655556638,
+      "interpretation": "Sampling robustness diagnostic only; does not upgrade retrospective evidence to historical-vintage evidence."
+    }
+  },
+  "failures_rejected": [
+    "Initial eval.py patch contained malformed list-comprehension parentheses; collection failed; fixed and reran full suite.",
+    "Battery point improvement is not robust: bootstrap interval crosses zero and leave-one-out can be negative; rejected stronger generalization claim."
+  ],
+  "assumptions": [
+    "Paired bootstrap resamples forecast occasions and is a sampling-sensitivity diagnostic, not proof of temporal independence or prospective validity."
+  ],
+  "decisions": [
+    "Do not add robustness as a new evidence class.",
+    "Do not promote battery result beyond no-regression/small-sample compatibility."
+  ],
+  "ci_state": "local green; final hosted gates unavailable without Radiant remote repository",
+  "weakest_link": "External hosted-CI release attestation remains binding for shipment; scientific generalization remains secondary weakness.",
+  "next_action": "Push exact rc4 candidate to intended Radiant GitHub repository; observe Actions success; capture completed run bound to commit; final verifier must pass before v1.0/Phase 2."
+}

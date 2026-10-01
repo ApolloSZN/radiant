@@ -1,0 +1,30 @@
+# Adaptive-System Kernel and its mapping onto the capability primitives.
+# Version 0.2. Changing this file is a schema change: bump the version.
+version: 0.2
+
+kernel:
+  B: {name: boundary,    meaning: "operational rule separating system from environment", table: adaptive_system.boundary_definition}
+  X: {name: state,       meaning: "named variables describing the system now",            table: state_variable}
+  R: {name: resources,   meaning: "what the environment supplies (the food set)",         table: [resource_flow, food_set]}
+  O: {name: observation, meaning: "state variables the system senses",                    primitive: SENSE}
+  M: {name: memory,      meaning: "information retained about past states",               primitive: REPRESENT}
+  P: {name: controller,  meaning: "maps observations and memory to actions",              primitive: COMPUTE}
+  A: {name: action,      meaning: "state variables the system can move",                  primitive: ACTUATE}
+  V: {name: viability,   meaning: "bounds on X that define persistence or success",       primitive: VERIFY}
+  U: {name: update,      meaning: "how errors change future behavior",                    measured_by: learning}
+
+between_systems:
+  TRANSMIT:   "information crossing a boundary"
+  CONVERT:    "resource transformation (a process in the closure network)"
+  COORDINATE: "coupled controllers across systems"
+
+# Every property is an operational test on evidence. None is hand-assigned.
+properties:
+  persistent:     {test: "recovery rate after perturbation >= 0.8 over >= 3 trials"}
+  regulated:      {test: "sense-act link exists and response slope on deviation < 0 with t < -2"}
+  self_producing: {test: "non-empty maximal RAF over the system's own processes (catalytic closure)"}
+  learning:       {test: "error slope over repeated trials < 0 with t < -2"}
+  self_improving: {test: "beta > 0 with 2-sigma margin, from log growth vs log capability (R6)"}
+  autonomous:     {definition: "persistent AND regulated AND self_producing"}
+
+scales: [chemical, cell, organism, person, team, lab, firm, market, institution, region, industry, civilization]

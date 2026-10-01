@@ -1,0 +1,62 @@
+{
+  "run": 46,
+  "version": "v0.14-rc34",
+  "timestamp": "2026-09-30T15:40:14-05:00",
+  "starting_state": "v0.14-rc33 run045; 138 tests; strict eval exit 0; release infrastructure frozen",
+  "objective": "add authoritative GOES supply-chain evidence without inventing quantity effects",
+  "sources": [
+    {
+      "name": "Czech Ministry of Industry and Trade",
+      "url": "https://mpo.gov.cz/cz/zahranicni-obchod/spolecna-obchodni-politika-eu/ochrana-obchodu-antidumpingova-antisubvencni-a-ochranna-opatreni/ulozena-prozatimni-safeguardova-opatreni-na-dovozy-goes--294684/",
+      "class": "official government"
+    },
+    {
+      "name": "Commission Implementing Regulation (EU) 2026/2133",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32026R2133",
+      "class": "official regulation"
+    }
+  ],
+  "new_evidence": {
+    "id": "EU2026_GOES_TRANSFORMER_CORE_PROVISIONAL_SAFEGUARD",
+    "value": 1140.0,
+    "unit": "EUR per tonne of core",
+    "period": "2026-09-25 through 2027-02-26",
+    "class": "official_government_summary_of_eu_provisional_safeguard"
+  },
+  "files_changed": [
+    "radiant/data/goes_import_floor.py",
+    "tests/test_goes_import_floor.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "PROGRESS.md",
+    "logs/run_046.md",
+    "logs/run_046.json"
+  ],
+  "commands": [
+    "pytest -q",
+    "python -m radiant.eval --strict"
+  ],
+  "tests": {
+    "passed": 139,
+    "failed": 0
+  },
+  "strict_eval_exit": 0,
+  "headline": {
+    "bitemporal_future_information_violations": {
+      "baseline": 9,
+      "system": 0
+    },
+    "goes_import_floor_kt_per_year": [
+      87.203815,
+      107.203815
+    ]
+  },
+  "rejected": [
+    "No value-to-mass conversion",
+    "No EU-policy-to-US-diversion assumption",
+    "SIMA workbook not fetched; no inferred panel"
+  ],
+  "ci_status": "frozen/not touched under RUN_PROTOCOL 6.7",
+  "weakest_link": "official 2020-2025 US direct-GOES mass panel with explicit HTS coverage",
+  "next_action": "obtain official annual US GOES import mass observation covering 7225.11 + 7226.11/documented descendants; otherwise another quantified official direct/embodied GOES observation"
+}

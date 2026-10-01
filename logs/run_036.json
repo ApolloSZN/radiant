@@ -1,0 +1,17 @@
+{
+  "run": 36,
+  "version": "v0.14-rc24",
+  "objective": "Verify and repair the exact hosted-CI evidence lifecycle before external execution.",
+  "starting_state": {"tests": 124, "release_gates": "9/11", "strict_eval": "green"},
+  "changes": [
+    "fixed radiant.release --run so it preserves the source-bound radiant.tests.v2 receipt contract",
+    "added regression test for the persisted post-run test receipt",
+    "corrected stale current-status references",
+    "updated FINDINGS, interview walkthrough, README, PROGRESS"
+  ],
+  "scientific_claim_changes": [],
+  "negative_results_preserved": ["sequencing forecasting superiority withdrawn", "BLS correction predictive result remains negative"],
+  "blockers": ["no owned Radiant GitHub repository selected/available for exact-candidate hosted execution"],
+  "weakest_link": "real hosted release execution provenance",
+  "next_action": "push rc24 to an owned Radiant GitHub repository; obtain exact-SHA green CI; record completion; require 11/11; then run goes-data"
+}

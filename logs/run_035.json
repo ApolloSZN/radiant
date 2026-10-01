@@ -1,0 +1,18 @@
+{
+  "run": 35,
+  "version": "v0.14-rc23",
+  "objective": "Bind executable release receipts to the exact source state they tested.",
+  "starting_state": {"tests": 123, "release_gates": "9/11", "strict_eval": "green"},
+  "changes": [
+    "added radiant/source_fingerprint.py",
+    "upgraded test/demo/reproduction receipts to source-bound v2 schemas",
+    "release verifier rejects fingerprint mismatches",
+    "added adversarial stale-receipt regression test",
+    "updated FINDINGS, interview walkthrough, README, PROGRESS"
+  ],
+  "scientific_claim_changes": [],
+  "negative_results_preserved": ["sequencing forecasting superiority withdrawn", "BLS correction predictive result remains negative"],
+  "blockers": ["no owned Radiant GitHub repository available through connected GitHub repository listing", "exact-candidate hosted CI not executed"],
+  "weakest_link": "hosted release execution provenance",
+  "next_action": "push rc23 to an owned Radiant GitHub repository; obtain exact-SHA green CI; record completion; require 11/11; then run goes-data"
+}

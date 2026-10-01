@@ -1,0 +1,13 @@
+{
+  "run":12,"version":"v0.13","objective":"Make the v1.0 ship bar executable and fail closed on leakage; attempt to expand strict-vintage evidence.",
+  "starting_state":"v0.12, 54 passing tests, retrospective eval harness, five sparse NHGRI vintage anchors.",
+  "files_changed":["radiant/release.py","tests/test_release.py","docs/limitations.md","PROGRESS.md","logs/run_012.json","logs/run_012.md","artifacts/release_report.json","artifacts/test_report.json"],
+  "commands":["pytest -q","python -m radiant.eval","python -m radiant.release --run","fresh primary-source web search for dated NHGRI anchors"],
+  "quantitative_outputs":{"tests_passed":56,"tests_failed":0,"ship_gates_passed":7,"ship_gates_total":9,"strict_vintage_eval_rows":0},
+  "negative_results":["Fresh targeted search did not yield sufficient additional dated NHGRI observations for a defensible dense strict-vintage rolling backtest.","Radiant v1.0 release verifier correctly fails."],
+  "decisions":["A retrospective real-data improvement can never satisfy the strict-vintage release gate.","Do not interpolate or reinterpret upper-bound vintage anchors as exact historical observations."],
+  "blockers":["strict historical-vintage headline evidence","technical write-up 1500-2500 words"],
+  "ci_state":"56/56 local tests green; hosted CI still not independently observed.",
+  "weakest_link":"strict historical-vintage evidence",
+  "next_action":"Find a sufficiently dense authoritative archived/vintage series for true rolling replay; complete technical write-up in parallel."
+}

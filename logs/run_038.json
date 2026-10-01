@@ -1,0 +1,64 @@
+{
+  "run": 38,
+  "version": "v0.14-rc26",
+  "starting_state": "v0.14-rc25 Run 037, 127 tests, 9/11 local release gates",
+  "objective": "Make the clean-machine/container reproduction ship-bar item executable rather than inferred from Dockerfile presence.",
+  "sources_data_consulted": [
+    "Repository release verifier",
+    "Dockerfile",
+    "GitHub CI/finalize workflows",
+    "existing execution receipts"
+  ],
+  "files_changed": [
+    ".dockerignore",
+    "scripts/reproduce_container.sh",
+    "radiant/source_fingerprint.py",
+    "radiant/release.py",
+    ".github/workflows/ci.yml",
+    "tests/test_container_reproduction_gate.py",
+    "tests/test_release.py",
+    "README.md",
+    "PROGRESS.md",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "logs/run_038.md",
+    "logs/run_038.json"
+  ],
+  "tests": {
+    "pytest": "130 passed",
+    "strict_eval": "release eval artifact remains release_ok; combined shell invocation exceeded orchestration timeout",
+    "demo": "passed",
+    "release_gates": "8/11"
+  },
+  "quantitative_outputs": {
+    "future_information_violations_baseline": 9,
+    "future_information_violations_system": 0,
+    "conditional_goes_import_or_draw_floor_kt_per_year": [
+      87,
+      107
+    ]
+  },
+  "failures_rejected": [
+    "Docker unavailable in this runtime; no container receipt fabricated",
+    "Rejected Dockerfile existence as proof of clean reproduction"
+  ],
+  "assumptions": [
+    "GitHub ubuntu-latest provides Docker for hosted clean-container execution"
+  ],
+  "provenance": "All new release evidence remains source-fingerprint-bound; container receipt can only be emitted after docker build+run exits successfully.",
+  "decisions": [
+    "Tighten one-command reproduction gate even though local count drops from 9/11 to 8/11"
+  ],
+  "blockers": [
+    "No owned Radiant GitHub repository available through connector",
+    "Docker unavailable in current runtime"
+  ],
+  "subsystem_state": {
+    "scientific_eval": "unchanged",
+    "reproducibility": "hardened; awaiting real container receipt",
+    "hosted_ci": "not executed"
+  },
+  "ci_status": "not hosted; local verifier 8/11",
+  "weakest_link": "clean-container + hosted execution evidence",
+  "exact_next_action": "Push rc26 to owned GitHub repo; require clean-container CI receipt, automatic finalize-release 11/11, then run goes-data."
+}

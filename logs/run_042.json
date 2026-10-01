@@ -1,0 +1,20 @@
+{
+  "run": 42,
+  "version": "v0.14-rc30",
+  "timestamp_utc": "2026-09-30T16:32:00Z",
+  "phase": 1,
+  "starting_state": {"version":"v0.14-rc29","tests_passed":134,"strict_eval_exit":0,"import_floor_kt_per_year":[87.203815,107.203815],"release_infrastructure_frozen":true},
+  "objective": "Add a new primary-source quantitative GOES supply fact, prioritizing U.S. annual imports and otherwise producer-stated foreign capacity.",
+  "sources": [{"authority":"JFE Steel Corporation","published":"2025-08-04","url":"https://www.jfe-steel.co.jp/en/release/2025/08/250804.html"}],
+  "new_evidence": [{"evidence_id":"JFE2025_JSW_INDIA_GOES_CAPACITY_2030","value":350.0,"unit":"kt GOES/year planned capacity","period":"Vijayanagar by 2027; Nashik expansion phased 2028-2030","evidence_class":"producer_announced_future_goes_nameplate_capacity","components":{"vijayanagar_kt_per_year":100.0,"nashik_planned_kt_per_year":250.0,"nashik_current_kt_per_year":50.0},"changes_import_floor":false}],
+  "files_changed": ["radiant/data/goes_import_floor.py","tests/test_goes_import_floor.py","docs/FINDINGS.md","docs/interview_walkthrough.md","PROGRESS.md","logs/run_042.md","logs/run_042.json"],
+  "commands": ["pytest -q","python -m radiant.eval --strict"],
+  "tests": {"passed":135,"strict_eval_exit":0},
+  "quantitative_outputs": {"import_floor_kt_per_year":[87.203815,107.203815],"shortage_claim":false},
+  "rejected_approaches": ["treat interactive monitor existence as observed annual GOES tonnage","subtract Indian nameplate capacity from U.S. floor","infer utilization or export availability"],
+  "decision": "Keep planned Indian capacity as foreign supply context only.",
+  "blockers": ["authoritative 2020-2025 annual U.S. direct GOES import tonnage panel still absent"],
+  "weakest_link": "observed U.S. GOES trade panel",
+  "ci_status": "release infrastructure intentionally untouched under RUN_PROTOCOL 6.7; local tests and strict eval green",
+  "next_action": "Locate official published/DataWeb/SIMA annual U.S. direct GOES import tonnes for 2020-2025 with explicit HTS coverage; otherwise add another producer-primary GOES capacity/output observation."
+}

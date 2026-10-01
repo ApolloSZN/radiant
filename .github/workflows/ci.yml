@@ -1,0 +1,28 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test-eval-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: bash scripts/reproduce.sh
+      - name: Clean-container reproduction
+        run: bash scripts/reproduce_container.sh
+      - run: python -m radiant.ci_attest
+      - run: python -m radiant.release --run --ci
+      - uses: actions/upload-artifact@v4
+        with:
+          name: radiant-release-evidence
+          path: |
+            artifacts/eval_report.json
+            artifacts/test_report.json
+            artifacts/demo_report.json
+            artifacts/reproduction_report.json
+            artifacts/container_reproduction_report.json
+            artifacts/demo_output.txt
+            artifacts/hosted_ci_attestation.json
+            artifacts/release_report.json

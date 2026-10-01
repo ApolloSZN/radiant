@@ -1,0 +1,31 @@
+{
+  "run": "008",
+  "version": "v0.9",
+  "tests": "44/44",
+  "objective": "uncertainty-aware transformer constraint identification",
+  "evidence_added": [
+    "DOE2024_DEMAND",
+    "DOE2024_IMPORT80",
+    "DOE2024_LEAD",
+    "DOE2026_INTERCHANGE"
+  ],
+  "stress_test": {
+    "n": 300,
+    "seed": 20260929,
+    "throughput_q05": 0.4605835049766791,
+    "throughput_median": 0.5687961896981379,
+    "throughput_q95": 0.7703960769909548,
+    "top_intervention_probability": {
+      "assembly": 0.19,
+      "winding": 0.1833333333,
+      "insulation_prep": 0.1666666667,
+      "core_fabrication": 0.1533333333,
+      "test_and_qualification": 0.12,
+      "goes": 0.07,
+      "insulation": 0.06,
+      "ctc_copper": 0.0566666667
+    }
+  },
+  "claim": "No robust binding constraint is identified under broad epistemic uncertainty; scenario values are not empirical U.S. estimates.",
+  "next_action": "ingest procurement/order microdata and infer stage constraints from lead-time/outcome evidence"
+}

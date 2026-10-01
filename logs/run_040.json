@@ -1,0 +1,132 @@
+{
+  "run": 40,
+  "version": "v0.14-rc28",
+  "timestamp_utc": "2026-09-30T15:11:22Z",
+  "phase": 1,
+  "starting_state": {
+    "artifact": "radiant-v0_14-rc27-run039.zip",
+    "tests_passed": 131,
+    "strict_eval_exit": 0,
+    "goes_import_floor_kt_per_year": [
+      87.203815,
+      107.203815
+    ],
+    "goes_shortage_claim": false,
+    "annual_goes_trade_2020_2025_present": false,
+    "release_infrastructure_frozen": true,
+    "last_recorded_release_local": "8/11 in Run 039; not rerun in Run 040"
+  },
+  "objective": "Return scheduled work to sourced GOES evidence; seek annual 2020-2025 direct import tonnes first, then embodied GOES imports if unavailable.",
+  "sources": [
+    {
+      "authority": "U.S. Department of Commerce, Bureau of Industry and Security",
+      "title": "The Effect of Imports of Transformers and Transformer Components on the National Security",
+      "report_completed": "2020-10-15",
+      "public_source_date": "2021-11-18",
+      "url": "https://public-inspection.federalregister.gov/2021-24958.pdf"
+    },
+    {
+      "authority": "U.S. Department of Energy",
+      "title": "Electric Grid Supply Chain Review: Large Power Transformers and High Voltage Direct Current Systems - Supply Chain Deep Dive Assessment",
+      "published": "2022-02-24",
+      "url": "https://www.energy.gov/sites/default/files/2024-12/Electric%20Grid%20Supply%20Chain%20Report%20-%20Final%5B1%5D.pdf"
+    }
+  ],
+  "new_evidence": [
+    {
+      "evidence_id": "COMMERCE2020_SECTION232_GOES_EMBODIED_CORES_2019",
+      "value": 68.0,
+      "unit": "kt GOES-equivalent",
+      "period": "2019",
+      "evidence_class": "federal_report_estimate_from_industry_weight_estimate",
+      "changes_import_floor": false
+    },
+    {
+      "evidence_id": "COMMERCE2020_SECTION232_CORE_COALITION_2020_ESTIMATE",
+      "value": 96.0,
+      "unit": "kt GOES-equivalent",
+      "period": "2020 estimate",
+      "evidence_class": "industry_estimate_reported_by_federal_agency",
+      "changes_import_floor": false
+    },
+    {
+      "evidence_id": "DOE2022_GRID_SUPPLY_CHAIN_STACKED_CORE_IMPORTS_2021_YTD_OCT",
+      "value": 842929,
+      "unit": "units",
+      "period": "2021 through October",
+      "hts": "8504.90.9638",
+      "evidence_class": "federal_report_trade_count",
+      "converted_to_mass": false,
+      "changes_import_floor": false
+    }
+  ],
+  "derived_context": {
+    "2019_embodied_core_imports_to_direct_goes_imports_ratio": 2.5185185185185186,
+    "derivation": "68 kt / 27 kt",
+    "evidence_class": "derived_from_sourced_quantities"
+  },
+  "files_changed": [
+    "radiant/data/goes_import_floor.py",
+    "tests/test_goes_import_floor.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "PROGRESS.md",
+    "README.md",
+    "logs/run_040.md",
+    "logs/run_040.json"
+  ],
+  "tests": {
+    "first_full_run": {
+      "passed": 132,
+      "failed": 1,
+      "failure": "legacy interpretation-string contract"
+    },
+    "final": {
+      "passed": 133,
+      "failed": 0
+    }
+  },
+  "strict_eval": {
+    "exit": 0,
+    "headline_positive_eval": "bitemporal information integrity",
+    "baseline_future_information_violations": 9,
+    "system_future_information_violations": 0,
+    "forecasting_advantage_withdrawn": true
+  },
+  "failures_rejected_approaches": [
+    "No suitable official published 2020-2025 direct GOES annual tonnage table found in reviewed indexed sources.",
+    "Refused conversion of stacked-core units to GOES mass without a weight distribution.",
+    "Refused to treat industry weight estimates reported by Commerce as measured customs tonnage.",
+    "Refused to add derivative imports to the future import-floor equation or make a shortage claim.",
+    "No GitHub/CI/release/Docker/workflow work performed."
+  ],
+  "assumptions": [
+    "Existing 87-107 kt/year import-floor assumptions remain unchanged.",
+    "The 2019 embodied/direct ratio is descriptive context only and not an independent observation."
+  ],
+  "new_connections": [
+    "Direct GOES sheet trade materially understates foreign GOES dependence because material also crosses the border embodied in transformer laminations and cores."
+  ],
+  "decisions": [
+    "Keep the 87-107 kt/year identified conditional import floor unchanged.",
+    "Keep embodied-import evidence in context until direct and derivative material flows can be reconciled without double counting."
+  ],
+  "blockers": [
+    "Annual U.S. direct GOES import tonnes for 2020-2025 remain unsourced/un-ingested.",
+    "GOES-specific current U.S. producer output split remains unavailable."
+  ],
+  "subsystem_state": {
+    "goes_empirical_grounding": "improved",
+    "forecasting": "withdrawn claim preserved",
+    "release_infrastructure": "frozen and unchanged",
+    "ci": "not run in this work session"
+  },
+  "weakest_link": "Current annual direct GOES trade evidence (2020-2025)",
+  "adversarial_direction_check": [
+    "empirical_grounding",
+    "physical_resource_validity",
+    "falsifiability"
+  ],
+  "next_action": "Source annual U.S. direct GOES import tonnes for 2020-2025 from an official published table/export with explicit HTS coverage; otherwise move to foreign GOES capacity or official 2026 tariff status.",
+  "timestamp_end_utc": "2026-09-30T15:17:38Z"
+}

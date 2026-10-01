@@ -1,0 +1,18 @@
+{
+  "run": 52,
+  "version": "v0.14-rc40",
+  "starting_state": "v0.14-rc39; 144 tests; strict eval exit 0; direct-GOES quantity panel missing",
+  "objective": "Make the Census direct-GOES trade estimand an executable contract before accepting the missing panel.",
+  "sources": [
+    {"publisher":"U.S. Census Bureau","url":"https://api.census.gov/data/timeseries/intltrade/imports/hs/variables.html","fact":"CON_QY1_YR is year-to-date imports-for-consumption quantity 1; GEN_QY1_YR is a distinct general-import measure."},
+    {"publisher":"U.S. Census Bureau","url":"https://www.census.gov/foreign-trade/reference/guides/Guide_to_International_Trade_Datasets.pdf","fact":"Appendix B documents CON_QY1_YR and CON_VAL_YR for the HS endpoint."}
+  ],
+  "files_changed": ["scripts/fetch_goes_trade.py","tests/test_goes_trade_annual.py","docs/FINDINGS.md","docs/interview_walkthrough.md","PROGRESS.md","logs/run_052.md","logs/run_052.json"],
+  "tests": {"final":"145 passed","strict_eval_exit":0},
+  "quantitative_outputs": {"conditional_import_floor_kt_per_year":[87.203815,107.203815],"bitemporal_future_information_violations":{"baseline":9,"system":0}},
+  "negative_results": ["No 2020-2025 annual quantity payload recovered in runtime.","Forecasting superiority remains withdrawn."],
+  "decision": "Require imports-for-consumption semantics and sourced four-line HTS10 reconciliation for direct-GOES ingestion.",
+  "ci_status": "Release infrastructure frozen; no real hosted CI run observed.",
+  "weakest_link": "Official observed 2020-2025 U.S. direct-GOES annual mass panel.",
+  "next_action": "Retrieve December YTD CON_QY1_YR for 2020-2025 HS6 and sourced HTS10 GOES lines; verify KG and reconcile before ingestion."
+}

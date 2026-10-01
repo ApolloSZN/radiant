@@ -1,0 +1,49 @@
+{
+  "run": 48,
+  "version": "v0.14-rc36",
+  "timestamp": "2026-09-30T17:33:08-05:00",
+  "starting_state": "v0.14-rc35 / Run 047; 140 tests; strict eval exit 0; CI/release frozen",
+  "objective": "Pursue official 2020-2025 U.S. GOES mass panel; otherwise replace a supply-route assumption with primary evidence.",
+  "sources": [
+    "https://www.trade.gov/feature-article/sima-steel-tables",
+    "https://www.trade.gov/steel-import-monitor",
+    "https://www.usitc.gov/applications/dataweb/about",
+    "https://www.jfe-steel.co.jp/en/release/2024/06/240620.html"
+  ],
+  "new_evidence": {
+    "id": "JFE2024_JGREEX_US_EATON_GOES_ORDER",
+    "value": 1.0,
+    "unit": "documented first U.S. JGreeX GOES application/order",
+    "class": "producer_primary_documented_us_supply_route",
+    "claim": "JFE documents first U.S. JGreeX GOES application/order for Eaton via Toyota Tsusho; mass/annual volume unidentified."
+  },
+  "tests": {
+    "pytest": "141 passed",
+    "strict_eval_exit": 0,
+    "claimed_eval": "future-information violations 9/9 -> 0/9"
+  },
+  "goes_import_floor_kt": [
+    87.203815,
+    107.203815
+  ],
+  "negative_results": [
+    "forecasting superiority withdrawn",
+    "sequencing fair-baseline gate remains failed/withdrawn"
+  ],
+  "failures": [
+    "Official SIMA XLSX endpoint identified but payload inaccessible in runtime."
+  ],
+  "decision": "Context only; no floor change; no shortage claim.",
+  "ci_status": "frozen/not touched",
+  "weakest_link": "official 2020-2025 U.S. direct-GOES mass panel",
+  "next_action": "Obtain SIMA Monthly Long XLSX outside restricted fetch path; extract GOES quantity and verify HTS coverage.",
+  "files_changed": [
+    "radiant/data/goes_import_floor.py",
+    "tests/test_goes_import_floor.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "PROGRESS.md",
+    "logs/run_048.md",
+    "logs/run_048.json"
+  ]
+}

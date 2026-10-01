@@ -1,0 +1,36 @@
+{
+  "run": 50,
+  "version": "v0.14-rc38",
+  "timestamp": "2026-09-30T19:34:00-05:00",
+  "objective": "official GOES mass panel first; otherwise quantified downstream-demand cross-check",
+  "new_evidence": [
+    {
+      "id": "DOE2024_DT_CORE_STEEL_DEMAND",
+      "value": 225.0,
+      "unit": "kt/year electrical steel for U.S. distribution transformers",
+      "source": "https://www.energy.gov/sites/default/files/2024-04/dt_ecs_fr.pdf"
+    },
+    {
+      "id": "MTC2024_DT_GOES_CONSUMPTION_REPORTED_BY_DOE",
+      "value": 175.0,
+      "unit": "kt/year GOES for U.S. distribution transformers",
+      "source": "https://public-inspection.federalregister.gov/2024-07480.pdf"
+    }
+  ],
+  "tests": {
+    "passed": 143,
+    "failed": 0
+  },
+  "strict_eval_exit": 0,
+  "headline_eval": {
+    "baseline_future_information_violations": 9,
+    "system_future_information_violations": 0
+  },
+  "goes_floor_kt_per_year": [
+    87.203815,
+    107.203815
+  ],
+  "ci": "frozen_not_touched",
+  "weakest_link": "official 2020-2025 U.S. direct-GOES mass panel",
+  "next_action": "obtain official SIMA/Census/USITC quantity export for 7225.11 + 7226.11 U.S. descendants"
+}

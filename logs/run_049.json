@@ -1,0 +1,33 @@
+{
+  "run": 49,
+  "version": "v0.14-rc37",
+  "timestamp": "2026-09-30T18:35:18-05:00",
+  "objective": "official GOES mass panel first; otherwise improve official scope evidence",
+  "new_evidence": {
+    "id": "COMMERCE2026_EU_GOES_SAFEGUARD_SCOPE_CODES",
+    "value": 3.0,
+    "unit": "covered EU tariff headings",
+    "codes": [
+      "7225.11.00",
+      "7226.11.00",
+      "8504.90.13"
+    ],
+    "source": "https://www.trade.gov/european-union-initiates-safeguard-investigation-global-imports-certain-grain-oriented-flat-rolled"
+  },
+  "tests": {
+    "passed": 142,
+    "failed": 0
+  },
+  "strict_eval_exit": 0,
+  "headline_eval": {
+    "baseline_future_information_violations": 9,
+    "system_future_information_violations": 0
+  },
+  "goes_floor_kt_per_year": [
+    87.203815,
+    107.203815
+  ],
+  "ci": "frozen_not_touched",
+  "weakest_link": "official 2020-2025 U.S. direct-GOES mass panel",
+  "next_action": "obtain official SIMA/Census/USITC quantity export and verify U.S. HTS descendants"
+}

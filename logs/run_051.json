@@ -1,0 +1,47 @@
+{
+  "run": 51,
+  "version": "v0.14-rc39",
+  "timestamp": "2026-09-30T20:38:18-05:00",
+  "starting_state": "v0.14-rc38; 143 tests; strict eval exit 0; direct-GOES 2020-2025 mass panel missing",
+  "objective": "Resolve highest-leverage remaining direct-GOES trade-panel scope uncertainty without inventing quantities.",
+  "sources": [
+    {
+      "publisher": "U.S. Department of Commerce, International Trade Administration",
+      "url": "https://enforcement.trade.gov/download/factsheets/factsheet-prc-goes-cvd-prelim-030514.pdf",
+      "fact": "GOES import statistics use HTSUS 7225.11.0000, 7226.11.1000, 7226.11.9030, 7226.11.9060; Census source."
+    }
+  ],
+  "files_changed": [
+    "radiant/data/goes_import_floor.py",
+    "tests/test_goes_import_floor.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "PROGRESS.md",
+    "logs/run_051.md",
+    "logs/run_051.json"
+  ],
+  "tests": {
+    "final": "144 passed",
+    "strict_eval_exit": 0,
+    "initial_failure": "Python collection SyntaxError from unescaped apostrophe; fixed"
+  },
+  "quantitative_outputs": {
+    "conditional_import_floor_kt_per_year": [
+      87.203815,
+      107.203815
+    ],
+    "bitemporal_future_information_violations": {
+      "baseline": 9,
+      "system": 0
+    },
+    "hts10_lines_count": 4
+  },
+  "negative_results": [
+    "No 2020-2025 annual quantity payload recovered in runtime.",
+    "Forecasting superiority remains withdrawn."
+  ],
+  "decision": "Treat Commerce HTS10 mapping as product-scope metadata only; never as recent quantity evidence.",
+  "ci_status": "Release infrastructure frozen; no real hosted CI run observed.",
+  "weakest_link": "Official observed 2020-2025 U.S. direct-GOES annual mass panel.",
+  "next_action": "Retrieve annual quantities for 7225110000, 7226111000, 7226119030, 7226119060 from official Census/SIMA/DataWeb, ingest fail-closed, and reconcile to HS6 totals."
+}

@@ -1,0 +1,16 @@
+{
+  "run": 15,
+  "version": "v0.14-rc3",
+  "objective": "Make the hosted-CI ship gate logically sound: distinguish execution inside CI from completed-green CI, while preserving a green workflow and fail-closed final release.",
+  "starting_state": "v0.14-rc2; 60 tests; local 9/10 gates; hosted CI absent; release verifier treated an in-job attestation as hosted_ci_green.",
+  "sources_datasets_consulted": ["No new empirical dataset; this run targeted release correctness and reproducibility semantics."],
+  "files_changed": ["radiant/hosted_release.py", "radiant/release.py", ".github/workflows/ci.yml", "tests/test_hosted_release.py", "tests/test_release.py", "docs/adr/004-hosted-ci-two-phase-attestation.md", "docs/interview_walkthrough.md", "PROGRESS.md", "logs/run_015.json", "logs/run_015.md"],
+  "commands": ["pytest -q", "python -m radiant.eval", "python -m radiant.release --run"],
+  "quantitative_outputs": {"tests_passed": 63, "tests_failed": 0, "final_release_gates_passed_locally": 9, "final_release_gates_total": 11, "sequencing_relative_improvement": 0.7751425629765135, "battery_relative_improvement": 0.11361913920710183, "bls_strict_vintage_relative_improvement": -0.31578947368421056},
+  "failures_rejected_approaches": ["Rejected the rc2 semantics that an attestation generated while a workflow is running can prove that workflow completed green.", "Initial two-phase implementation made the CI workflow impossible to pass because the completed-run record cannot exist until after the job finishes; corrected by adding explicit CI mode versus final release mode."],
+  "assumptions": ["GitHub Actions is the intended hosted CI provider.", "A final ship decision must be based on GitHub's completed run state, not self-attestation from within the still-running job."],
+  "architectural_decisions": ["Two-phase CI evidence: in-job hosted execution attestation plus post-run completed-success evidence bound to the commit.", "CI mode may pass without post-run evidence; final mode may not."],
+  "ci_state": "Local suite/eval green. Hosted CI remains externally blocked because no Radiant repository is accessible. Final verifier intentionally fails locally on hosted_ci_execution and hosted_ci_completed_green.",
+  "weakest_link": "External repository/hosted-CI publication and observation; no remaining local release-engineering blocker identified.",
+  "exact_next_action": "Push this exact rc3 candidate to the intended Radiant GitHub repository. Let Actions run in --ci mode. After GitHub reports completed/success, capture a commit-bound completed_ci_run.json from the GitHub run, rerun final release verification, and ship v1.0 only if 11/11 final gates pass."
+}

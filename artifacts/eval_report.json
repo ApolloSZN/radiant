@@ -1,0 +1,549 @@
+{
+  "schema": "radiant.eval.v2",
+  "all_passed": false,
+  "release": {
+    "release_ok": true,
+    "blocking_failed_claims": [],
+    "asserted": [
+      "bitemporal_information_integrity_vs_latest_revision",
+      "bls_strict_vintage_integrity"
+    ],
+    "withdrawn_negative_results": [
+      "sequencing_fair_baseline_gate",
+      "battery_prequential_selector"
+    ]
+  },
+  "results": [
+    {
+      "name": "bitemporal_information_integrity_vs_latest_revision",
+      "baseline": 9.0,
+      "system": 0.0,
+      "relative_improvement": 1.0,
+      "threshold": 1.0,
+      "passed": true,
+      "metric": "future_information_violations",
+      "evidence_class": "strict_historical_vintage",
+      "note": "Explicit baseline comparison: latest-revision reconstruction uses future BLS revisions at historical cutoffs; as-of reconstruction does not. Measures information integrity, not forecast accuracy.",
+      "claim_status": "claimed"
+    },
+    {
+      "name": "sequencing_fair_baseline_gate",
+      "baseline": 0.14934227001183709,
+      "system": 0.17619967449608345,
+      "relative_improvement": -0.17983792855242933,
+      "threshold": 0.0,
+      "passed": false,
+      "metric": "MALE",
+      "evidence_class": "retrospective_real_data",
+      "note": "CI gate: the selector must robustly beat every baseline in the predeclared simple panel; strongest observed panel baseline is rolling_3. Claim WITHDRAWN (ADR 006): reported as a negative result, not asserted.",
+      "claim_status": "withdrawn"
+    },
+    {
+      "name": "battery_prequential_selector",
+      "baseline": 0.1647936795055334,
+      "system": 0.14606996349334367,
+      "relative_improvement": 0.11361913920710183,
+      "threshold": 0.0,
+      "passed": true,
+      "metric": "MALE",
+      "evidence_class": "retrospective_real_data",
+      "note": "No-regression check against the predeclared rolling-5 baseline; small n (6) and a bootstrap interval crossing zero mean no advantage is claimed.",
+      "claim_status": "withdrawn"
+    },
+    {
+      "name": "bls_strict_vintage_integrity",
+      "baseline": 0.27142857142857146,
+      "system": 0.3571428571428572,
+      "relative_improvement": -0.31578947368421056,
+      "threshold": -1.0,
+      "passed": true,
+      "metric": "MAE_pct_points",
+      "evidence_class": "strict_historical_vintage",
+      "note": "Strict archived-release replay. Predictive correction is allowed to fail; this gate tests no-leak vintage integrity and preserves the negative result.",
+      "claim_status": "integrity"
+    }
+  ],
+  "diagnostics": {
+    "legacy_all_history_sequencing_improvement": 0.7751425629765135,
+    "legacy_all_history_note": "Retained for historical comparability only; it is not the ship-gate comparator after Run 026."
+  },
+  "robustness": {
+    "sequencing_vs_all_history": {
+      "n": 39,
+      "point_improvement": 0.7751425629765135,
+      "paired_bootstrap_draws": 10000,
+      "seed": 20260929,
+      "bootstrap_ci95": [
+        0.6583403295081864,
+        0.857371974265642
+      ],
+      "p_improvement_gt_0": 1.0,
+      "p_improvement_ge_50pct": 0.9999,
+      "leave_one_out_min_improvement": 0.7612850565768761,
+      "leave_one_out_max_improvement": 0.8050841707774867,
+      "interpretation": "Sampling robustness diagnostic only; does not upgrade retrospective evidence to historical-vintage evidence."
+    },
+    "battery": {
+      "n": 6,
+      "point_improvement": 0.11361913920710183,
+      "paired_bootstrap_draws": 10000,
+      "seed": 20260929,
+      "bootstrap_ci95": [
+        -0.08584922351721364,
+        0.23849616018430142
+      ],
+      "p_improvement_gt_0": 0.6663,
+      "p_improvement_ge_50pct": 0.0,
+      "leave_one_out_min_improvement": -0.02561965771047452,
+      "leave_one_out_max_improvement": 0.1442438655556638,
+      "interpretation": "Sampling robustness diagnostic only; does not upgrade retrospective evidence to historical-vintage evidence."
+    }
+  },
+  "specification_sensitivity": {
+    "sequencing_vs_all_history": {
+      "n_specifications": 16,
+      "baseline_male": 0.7836061676611537,
+      "min_relative_improvement": 0.7077879551800191,
+      "median_relative_improvement": 0.7606839647363719,
+      "max_relative_improvement": 0.8047253571959888,
+      "fraction_improving": 1.0,
+      "fraction_meeting_headline_threshold": 1.0,
+      "headline_threshold": 0.5,
+      "rows": [
+        {
+          "windows": [
+            null,
+            8,
+            4
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.1767992150442666,
+          "relative_improvement": 0.7743774585491549
+        },
+        {
+          "windows": [
+            null,
+            8,
+            4
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.17619967449608345,
+          "relative_improvement": 0.7751425629765135
+        },
+        {
+          "windows": [
+            null,
+            8,
+            4
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.17619967449608345,
+          "relative_improvement": 0.7751425629765135
+        },
+        {
+          "windows": [
+            null,
+            8,
+            4
+          ],
+          "warmup_predictions": 4,
+          "system_male": 0.17619967449608345,
+          "relative_improvement": 0.7751425629765135
+        },
+        {
+          "windows": [
+            null,
+            10,
+            5
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.1982598274613198,
+          "relative_improvement": 0.7469904709235888
+        },
+        {
+          "windows": [
+            null,
+            10,
+            5
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.1982598274613198,
+          "relative_improvement": 0.7469904709235888
+        },
+        {
+          "windows": [
+            null,
+            10,
+            5
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.1982598274613198,
+          "relative_improvement": 0.7469904709235888
+        },
+        {
+          "windows": [
+            null,
+            10,
+            5
+          ],
+          "warmup_predictions": 4,
+          "system_male": 0.1982598274613198,
+          "relative_improvement": 0.7469904709235888
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.15301841448905187,
+          "relative_improvement": 0.8047253571959888
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.15301841448905187,
+          "relative_improvement": 0.8047253571959888
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.15301841448905187,
+          "relative_improvement": 0.8047253571959888
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 4,
+          "system_male": 0.15301841448905187,
+          "relative_improvement": 0.8047253571959888
+        },
+        {
+          "windows": [
+            null,
+            12,
+            6
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.2289791605858145,
+          "relative_improvement": 0.7077879551800191
+        },
+        {
+          "windows": [
+            null,
+            12,
+            6
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.2289791605858145,
+          "relative_improvement": 0.7077879551800191
+        },
+        {
+          "windows": [
+            null,
+            12,
+            6
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.2289791605858145,
+          "relative_improvement": 0.7077879551800191
+        },
+        {
+          "windows": [
+            null,
+            12,
+            6
+          ],
+          "warmup_predictions": 4,
+          "system_male": 0.2289791605858145,
+          "relative_improvement": 0.7077879551800191
+        }
+      ],
+      "interpretation": "Predeclared specification-sensitivity audit only; does not upgrade retrospective evidence or justify selecting the best row after seeing outcomes."
+    },
+    "battery": {
+      "n_specifications": 9,
+      "baseline_male": 0.1647936795055334,
+      "min_relative_improvement": 0.10899791591940236,
+      "median_relative_improvement": 0.13856655594672918,
+      "max_relative_improvement": 0.18469983000363763,
+      "fraction_improving": 1.0,
+      "fraction_meeting_headline_threshold": 1.0,
+      "headline_threshold": 0.0,
+      "rows": [
+        {
+          "windows": [
+            null,
+            5,
+            3
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.14365029935747053,
+          "relative_improvement": 0.12830213034567817
+        },
+        {
+          "windows": [
+            null,
+            5,
+            3
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.14606996349334367,
+          "relative_improvement": 0.11361913920710183
+        },
+        {
+          "windows": [
+            null,
+            5,
+            3
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.14683151188274032,
+          "relative_improvement": 0.10899791591940236
+        },
+        {
+          "windows": [
+            null,
+            4,
+            3
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.13435631491518743,
+          "relative_improvement": 0.18469983000363763
+        },
+        {
+          "windows": [
+            null,
+            4,
+            3
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.13435631491518743,
+          "relative_improvement": 0.18469983000363763
+        },
+        {
+          "windows": [
+            null,
+            4,
+            3
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.13435631491518743,
+          "relative_improvement": 0.18469983000363763
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 1,
+          "system_male": 0.1397382394544687,
+          "relative_improvement": 0.15204126836808318
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 2,
+          "system_male": 0.14195878689466254,
+          "relative_improvement": 0.13856655594672918
+        },
+        {
+          "windows": [
+            null,
+            6,
+            3
+          ],
+          "warmup_predictions": 3,
+          "system_male": 0.14508793112804683,
+          "relative_improvement": 0.11957830201142448
+        }
+      ],
+      "interpretation": "Predeclared specification-sensitivity audit only; does not upgrade retrospective evidence or justify selecting the best row after seeing outcomes."
+    }
+  },
+  "baseline_fairness": {
+    "sequencing": {
+      "schema": "radiant.baseline_fairness.v2",
+      "n_paired_forecasts": 39,
+      "rows": [
+        {
+          "baseline": "all_history",
+          "baseline_male": 0.7836061676611537,
+          "system_male": 0.17619967449608345,
+          "point_improvement": 0.7751425629765135,
+          "bootstrap_ci95": [
+            0.6583403295081864,
+            0.857371974265642
+          ],
+          "robust_win": true,
+          "selector_loses": false
+        },
+        {
+          "baseline": "rolling_8",
+          "baseline_male": 0.27438205362325224,
+          "system_male": 0.17619967449608345,
+          "point_improvement": 0.35783090705334825,
+          "bootstrap_ci95": [
+            0.13146089631057137,
+            0.5578093673424331
+          ],
+          "robust_win": true,
+          "selector_loses": false
+        },
+        {
+          "baseline": "rolling_6",
+          "baseline_male": 0.2284418472603857,
+          "system_male": 0.17619967449608345,
+          "point_improvement": 0.2286891538954982,
+          "bootstrap_ci95": [
+            0.0462962033820784,
+            0.4193494097324884
+          ],
+          "robust_win": true,
+          "selector_loses": false
+        },
+        {
+          "baseline": "rolling_5",
+          "baseline_male": 0.19485103551200114,
+          "system_male": 0.17619967449608345,
+          "point_improvement": 0.09572112853754337,
+          "bootstrap_ci95": [
+            -0.06316480575892013,
+            0.2675633568494228
+          ],
+          "robust_win": false,
+          "selector_loses": false
+        },
+        {
+          "baseline": "rolling_4",
+          "baseline_male": 0.1631505115491776,
+          "system_male": 0.17619967449608345,
+          "point_improvement": -0.07998235998771308,
+          "bootstrap_ci95": [
+            -0.24379885234021093,
+            0.08117514243577403
+          ],
+          "robust_win": false,
+          "selector_loses": true
+        },
+        {
+          "baseline": "rolling_3",
+          "baseline_male": 0.14934227001183709,
+          "system_male": 0.17619967449608345,
+          "point_improvement": -0.17983792855242933,
+          "bootstrap_ci95": [
+            -0.5232481301210388,
+            0.09120961641205141
+          ],
+          "robust_win": false,
+          "selector_loses": true
+        },
+        {
+          "baseline": "no_change",
+          "baseline_male": 0.23083936040164124,
+          "system_male": 0.17619967449608345,
+          "point_improvement": 0.23670004028121241,
+          "bootstrap_ci95": [
+            -0.07463702970487027,
+            0.4906136215745446
+          ],
+          "robust_win": false,
+          "selector_loses": false
+        }
+      ],
+      "robustly_beats": [
+        "all_history",
+        "rolling_8",
+        "rolling_6"
+      ],
+      "loses_to": [
+        "rolling_4",
+        "rolling_3"
+      ],
+      "strongest_predeclared_baseline": "rolling_3",
+      "strongest_predeclared_baseline_male": 0.14934227001183709,
+      "system_male": 0.17619967449608345,
+      "relative_improvement_vs_strongest": -0.17983792855242933,
+      "fair_gate_passed": false,
+      "headline_survives_all_simple_baselines": false,
+      "interpretation": "The large headline improvement is measured against an all-history fit. Against short fixed-window fits the selector is not robustly better and loses to the shortest windows. The defensible finding is that recent data beats old data after a regime shift; the selector itself adds little."
+    }
+  },
+  "online_aggregation": {
+    "sequencing": {
+      "schema": "radiant.online_aggregation.v1",
+      "n_paired_forecasts": 39,
+      "experts": [
+        "all_history",
+        "rolling_8",
+        "rolling_6",
+        "rolling_5",
+        "rolling_4",
+        "rolling_3",
+        "no_change"
+      ],
+      "fixed_expert_male": {
+        "all_history": 0.7836061676611535,
+        "rolling_8": 0.2743820536232522,
+        "rolling_6": 0.22844184726038555,
+        "rolling_5": 0.19485103551200106,
+        "rolling_4": 0.16315051154917745,
+        "rolling_3": 0.14934227001183706,
+        "no_change": 0.23083936040164124
+      },
+      "strongest_fixed_baseline": "rolling_3",
+      "strongest_fixed_male": 0.14934227001183706,
+      "algorithms": [
+        {
+          "algorithm": "follow_the_leader",
+          "male": 0.15614084514381724,
+          "strongest_fixed_baseline": "rolling_3",
+          "strongest_fixed_male": 0.14934227001183706,
+          "relative_improvement_vs_strongest_fixed": -0.04552344846131851,
+          "bootstrap_ci95": [
+            -0.13716818289401297,
+            0.014474381336602364
+          ],
+          "robustly_beats_strongest_fixed": false
+        },
+        {
+          "algorithm": "exponential_weights",
+          "male": 0.16414144686531806,
+          "strongest_fixed_baseline": "rolling_3",
+          "strongest_fixed_male": 0.14934227001183706,
+          "relative_improvement_vs_strongest_fixed": -0.09909570044909592,
+          "bootstrap_ci95": [
+            -0.32263825086746045,
+            0.08010858480151287
+          ],
+          "robustly_beats_strongest_fixed": false
+        }
+      ],
+      "any_online_algorithm_robustly_beats_strongest_fixed": false,
+      "interpretation": "Canonical causal online aggregation improves on the original Radiant selector, but does not establish an edge over the strongest predeclared short-window baseline. This is retained as a negative result rather than choosing a winning formulation after seeing outcomes."
+    }
+  },
+  "limitations": [
+    "The sequencing and battery datasets are retrospective real-data evaluations; the BLS row is a separate strict historical-vintage replay.",
+    "The BLS revision-correction model underperforms its no-correction baseline; passing certifies information-time integrity, not predictive superiority.",
+    "The 77.5% sequencing number is retained only as a legacy comparison against the all-history baseline. The selector loses to stronger predeclared short-window baselines, so the claim is withdrawn (ADR 006).",
+    "Canonical online aggregation (follow-the-leader and exponential weights) improves on the old selector but still does not robustly beat the strongest fixed short-window baseline.",
+    "Passing any forecasting diagnostic would not by itself establish causal intervention validity."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "run": 25,
+  "version": "v0.14-rc13",
+  "starting_state": "v0.14-rc12; 90 tests; release 9/11",
+  "objective": "begin vintage-safe GOES supply-response panel and enforce complete commodity coverage",
+  "sources": ["U.S. Census Schedule B", "U.S. Census FT900 steel data", "Commerce Section 232 GOES investigation", "USGS MCS 2026 reviewed/rejected for GOES-specific capacity"],
+  "files_changed": ["radiant/data/goes_supply_panel.py", "tests/test_goes_supply_panel.py", "PROGRESS.md", "logs/run_025.md", "logs/run_025.json"],
+  "tests": {"passed": 93, "failed": 0, "reproduction": "green"},
+  "quantitative_outputs": {"commerce_2019_import_share_descriptive": 0.1227272727, "adequacy_identified": false},
+  "rejected_approaches": ["single GOES width code as total trade", "aggregate iron/steel capacity as GOES capacity", "carry 2019 import share into 2026+"],
+  "ci_status": "local green; final release 9/11; hosted execution/completed-green absent",
+  "weakest_link": "same-horizon GOES-specific production/capacity plus complete trade/stock/competing-use evidence",
+  "next_action": "ingest both GOES trade codes annually and locate vintage-compatible domestic production/capacity before supply-envelope calculation"
+}

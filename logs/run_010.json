@@ -1,0 +1,35 @@
+{
+  "run": 10,
+  "version": "v0.11",
+  "objective": "convert public transformer expansion evidence into defensible capacity-sufficiency bounds without inventing plant-stage causal effects",
+  "starting_state": "v0.10; 47 passing tests; macro import-dependence bound established; stage-level bottleneck unidentified",
+  "sources_consulted": [
+    "DOE Large Power Transformer Resilience Report to Congress, July 2024",
+    "APPA report of Siemens Energy Charlotte expansion, 2024-02-16",
+    "Hitachi official U.S. manufacturing investment release, 2025-09-04"
+  ],
+  "files_created": ["radiant/data/transformer_expansion.py","tests/test_transformer_expansion.py","db/migrations/006_constraint_hypotheses.sql"],
+  "files_changed": ["data/transformers/evidence.csv","PROGRESS.md"],
+  "commands": ["pytest -q", "capacity sufficiency scenario calculations"],
+  "tests": "50/50 passing",
+  "quantitative_outputs": {
+    "legacy_implied_nameplate_units_per_year": 342.5,
+    "siemens_charlotte_full_rate_new_lpt_units_per_year": 57.0,
+    "optimistic_combined_nameplate": 399.5,
+    "residual_external_supply_against_750_static_benchmark": 350.5,
+    "domestic_nameplate_share_upper_bound_against_750": 0.5326666667,
+    "cross_definition_residual_against_DOE_2027_900_scenario": 500.5
+  },
+  "failures_rejected_approaches": [
+    "Rejected converting Hitachi investment dollars or job counts into transformer units/year because no defensible conversion is published.",
+    "Rejected labeling workforce the binding bottleneck from the 89% hiring-difficulty survey; prevalence is not marginal causal effect.",
+    "Rejected treating DOE >60 MVA 2027 demand and Commerce >100 MVA capacity as definition-compatible without qualification."
+  ],
+  "architectural_decisions": [
+    "Capacity additions carry product_definition and evidence_id.",
+    "Constraint evidence relations distinguish presence, direction, quantified effect, and contradiction.",
+    "Cross-definition arithmetic is permitted only as explicitly labeled scenario output."
+  ],
+  "unresolved_blockers": ["plant/order-level causal variation", "public unit-rate capacity for major announced expansions", "effect sizes for workforce/test-space/standardization interventions"],
+  "next": "build dated plant/order panel and causal event-study harness around observable capacity expansions and lead-time outcomes"
+}

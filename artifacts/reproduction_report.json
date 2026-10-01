@@ -1,0 +1,12 @@
+{
+  "schema": "radiant.reproduction.v2",
+  "source_fingerprint": "437f730ce529a85bb2d95ef294755192732aa7a9dbdedcf72391947f15919086",
+  "passed": true,
+  "commands": [
+    "pytest -q",
+    "python -m radiant.eval --strict",
+    "python -m examples.demo"
+  ],
+  "demo_report": "artifacts/demo_report.json",
+  "eval_report": "artifacts/eval_report.json"
+}

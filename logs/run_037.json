@@ -1,0 +1,22 @@
+{
+  "run": 37,
+  "version": "v0.14-rc25",
+  "starting_state": {"version":"v0.14-rc24","tests":125,"release_gates":"9/11","strict_eval":"green"},
+  "objective": "Remove the manual post-CI evidence-transfer step while preserving exact-run fail-closed provenance.",
+  "sources_data_consulted": ["existing repository CI/release code and GitHub Actions workflow contracts"],
+  "files_changed": [".github/workflows/finalize-release.yml","scripts/write_completed_ci_from_env.py","tests/test_finalize_release_workflow.py","README.md","PROGRESS.md","docs/FINDINGS.md","docs/interview_walkthrough.md","logs/run_037.json","logs/run_037.md"],
+  "changes": ["added workflow_run finalizer for successful named ci workflow","bound checkout and artifact download to exact upstream SHA/run ID","added fail-closed completed-run receipt writer","added adversarial workflow/receipt tests"],
+  "commands": ["pytest -q", "python -m radiant.eval --strict", "python -m examples.demo", "python -m radiant.release"],
+  "tests": {"passed":127,"failed":0},
+  "quantitative_outputs": {"bitemporal_future_information_violations_baseline":9,"bitemporal_future_information_violations_system":0,"release_gates":"9/11"},
+  "failures_rejected_approaches": ["did not simulate hosted success","combined reproduce shell invocation exceeded this runtime's orchestration timeout after pytest; its constituent pytest/strict-eval/demo commands were rerun and passed separately"],
+  "assumptions": ["GitHub Actions workflow_run and actions/download-artifact v4 cross-run behavior follows the checked-in workflow contract"],
+  "provenance": "No new scientific source or quantity added; this run changes release infrastructure only.",
+  "new_connections": ["successful hosted CI can itself become the trigger for final exact-SHA release verification without a human copying evidence"],
+  "decisions": ["keep 9/11 until real hosted execution exists","do not enter Phase 2"],
+  "blockers": ["no owned Radiant GitHub repository exists in the connected account, so exact-SHA hosted CI cannot yet execute"],
+  "subsystem_state": {"release_finalization":"implemented and locally regression-tested","science":"unchanged","goes":"annual panel still absent"},
+  "ci_status": "local tests and strict eval green; hosted CI absent",
+  "weakest_link": "external repository/hosted execution",
+  "exact_next_action": "Create/select owned Radiant GitHub repository, push rc25, require green ci then automatically triggered green finalize-release with final 11/11; only then run goes-data."
+}

@@ -1,0 +1,15 @@
+{
+  "run": 44,
+  "artifact": "v0.14-rc32",
+  "objective": "GOES empirical grounding",
+  "new_evidence": [
+    "COMMERCE2020_SECTION232_NA_COMPONENT_US_DESTINATION"
+  ],
+  "import_floor_kt": [
+    87.203815,
+    107.203815
+  ],
+  "shortage_claim": false,
+  "ci": "frozen",
+  "next_action": "official 2020-2025 U.S. direct GOES tonnes with explicit HTS coverage"
+}

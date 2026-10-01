@@ -1,0 +1,49 @@
+name: finalize-release
+# A GitHub `workflow_run` event is emitted only after the `ci` workflow has
+# completed.  This job checks out the exact CI head SHA, downloads that run's
+# evidence, writes a completed-success receipt from GitHub event data, and runs
+# the ordinary fail-closed final verifier.  It cannot turn a failed CI run green.
+on:
+  workflow_run:
+    workflows: ["ci"]
+    types: [completed]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  finalize:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Download exact CI evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: radiant-release-evidence
+          path: artifacts
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Record completed hosted run
+        env:
+          RADIANT_REPOSITORY: ${{ github.repository }}
+          RADIANT_COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
+          RADIANT_RUN_ID: ${{ github.event.workflow_run.id }}
+          RADIANT_RUN_URL: ${{ github.event.workflow_run.html_url }}
+          RADIANT_RUN_STATUS: ${{ github.event.workflow_run.status }}
+          RADIANT_RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: python scripts/write_completed_ci_from_env.py
+      - name: Require full v1.0 ship bar
+        run: python -m radiant.release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: radiant-final-release-evidence
+          path: |
+            artifacts/hosted_ci_attestation.json
+            artifacts/completed_ci_run.json
+            artifacts/release_report.json

@@ -1,0 +1,5 @@
+date,gpu,release_price_usd_approx,price_2022_usd_approx,performance_flops,flops_per_2022_usd,recorded_at,source_tier,source_url,vintage_status
+2016-06-20,P100,16000,15000,2e13,1.3e9,2024-10-23,T1,https://epoch.ai/data-insights/price-performance-hardware,retrospective
+2017-12-07,V100,20000,19000,1e14,6.7e9,2024-10-23,T1,https://epoch.ai/data-insights/price-performance-hardware,retrospective
+2020-05-14,A100,25000,24000,3e14,1.3e10,2024-10-23,T1,https://epoch.ai/data-insights/price-performance-hardware,retrospective
+2022-09-20,H100,44000,44000,1e15,2.2e10,2024-10-23,T1,https://epoch.ai/data-insights/price-performance-hardware,retrospective

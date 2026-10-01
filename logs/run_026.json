@@ -1,0 +1,12 @@
+{
+  "run": 26,
+  "version": "v0.14-rc14",
+  "starting_state": "v0.14-rc13; 93 tests; release 9/11",
+  "objective": "documentation consolidation and baseline-fairness audit of the sequencing headline",
+  "files_changed": ["README.md", "PROGRESS.md", "radiant/data/baseline_fairness.py", "radiant/eval.py", "tests/test_baseline_fairness.py", "docs/FINDINGS.md", "docs/technical_writeup.md", "docs/limitations.md", "docs/interview_walkthrough.md", "logs/run_026.md", "logs/run_026.json"],
+  "tests": {"passed": 96, "failed": 0, "reproduction": "green"},
+  "quantitative_outputs": {"vs_all_history": 0.775, "vs_rolling_5": 0.096, "vs_rolling_4": -0.080, "vs_rolling_3": -0.180, "vs_no_change": 0.237, "headline_survives_all_simple_baselines": false},
+  "ci_status": "local green; final release 9/11; hosted execution/completed-green absent",
+  "weakest_link": "no result that is both new and robust; hosted CI never run",
+  "next_action": "push to GitHub and observe hosted CI; then GOES supply panel"
+}

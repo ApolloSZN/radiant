@@ -1,0 +1,31 @@
+name: goes-data
+# Pulls annual U.S. GOES trade from the Census International Trade API and
+# commits data/goes/goes_trade_annual.csv. The fetcher fails closed if any
+# required HS6 annual row is missing/error; a green workflow therefore cannot
+# silently publish an error-filled trade panel.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 15 * *'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python scripts/fetch_goes_trade.py
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+      - run: PYTHONPATH=. python -m radiant.data.goes_import_floor
+      - run: pytest -q tests/test_goes_trade_annual.py tests/test_goes_import_floor.py
+      - name: Commit data if changed
+        run: |
+          git config user.name "radiant-bot"
+          git config user.email "radiant-bot@users.noreply.github.com"
+          git add data/goes/goes_trade_annual.csv
+          git diff --cached --quiet || (git commit -m "data: refresh annual GOES trade (Census API)" && git push)

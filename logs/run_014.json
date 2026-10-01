@@ -1,0 +1,12 @@
+{
+  "run":14,"version":"v0.14-rc2","objective":"Make hosted CI an actual fail-closed v1.0 ship gate rather than a local proxy.",
+  "starting_state":"v0.14-rc1, 58 tests, local 9/9 proxy gates, hosted CI unverified",
+  "files_changed":["radiant/ci_attest.py","radiant/release.py",".github/workflows/ci.yml","tests/test_ci_attest.py","tests/test_release.py","PROGRESS.md","logs/run_014.json","logs/run_014.md"],
+  "commands":["pytest -q","python -m radiant.eval","python -m radiant.release --run","GitHub list repositories/search Radiant"],
+  "quantitative_outputs":{"tests_passed":60,"tests_failed":0,"release_gates_passed":9,"release_gates_total":10,"sequencing_relative_improvement":0.7751425629765135,"battery_relative_improvement":0.11361913920710183,"bls_strict_vintage_relative_improvement":-0.31578947368421056},
+  "negative_results":["No Radiant repository is accessible through the connected GitHub account, so hosted CI cannot be observed this run.","Strict-vintage BLS correction remains worse than baseline and is retained."],
+  "decision":"A committed workflow file plus local tests is not hosted-CI evidence. v1.0 now requires a GitHub-Actions-generated commit-bound attestation.",
+  "ci_state":"local green; hosted CI blocked because no Radiant repo is accessible",
+  "weakest_link":"external release/hosted CI verification",
+  "exact_next_action":"Push v0.14-rc2 to the intended Radiant GitHub repository, observe Actions, retrieve the release-evidence artifact, verify commit SHA/run URL, then ship v1.0 only if all 10/10 gates pass."
+}

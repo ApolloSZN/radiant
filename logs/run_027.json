@@ -1,0 +1,108 @@
+{
+  "run": 27,
+  "version": "v0.14-rc15",
+  "timestamp": "2026-09-30T00:08:00-05:00",
+  "starting_state": {
+    "version": "v0.14-rc14",
+    "tests_passing": 96,
+    "release_gates_passing": 9,
+    "release_gates_total": 11,
+    "known_scientific_issue": "sequencing headline failed fair baselines but executable eval gate still passed against all-history"
+  },
+  "objectives": [
+    "make release evaluation consistent with the Run 026 fair-baseline falsification",
+    "benchmark causal online aggregation without target leakage",
+    "correct GOES trade-code acquisition semantics to direction/effective-period-specific official concordances",
+    "update plain-English findings and interview guide"
+  ],
+  "sources": [
+    {
+      "organization": "U.S. Department of Commerce",
+      "title": "Steel Products by HTS Codes",
+      "url": "https://www.trade.gov/steel-products-hts-codes",
+      "use": "current GOES import HTSUSA code coverage"
+    },
+    {
+      "organization": "U.S. Department of Commerce",
+      "title": "Export Monitor Concordance",
+      "url": "https://www.trade.gov/export-monitor-concordance",
+      "use": "current GOES export Schedule B code coverage"
+    },
+    {
+      "organization": "U.S. Census Bureau",
+      "title": "International Trade Imports by HS API",
+      "url": "https://api.census.gov/data/timeseries/intltrade/imports/hs.html",
+      "use": "authoritative acquisition route / quantity semantics"
+    }
+  ],
+  "files_changed": [
+    "radiant/data/online_aggregation.py",
+    "tests/test_online_aggregation.py",
+    "radiant/data/baseline_fairness.py",
+    "radiant/eval.py",
+    ".github/workflows/ci.yml",
+    "docs/adr/005-fair-baselines-are-release-gates.md",
+    "radiant/data/goes_supply_panel.py",
+    "tests/test_goes_supply_panel.py",
+    "docs/FINDINGS.md",
+    "docs/interview_walkthrough.md",
+    "docs/EXTERNAL_INPUTS.md",
+    "docs/limitations.md",
+    "docs/technical_writeup.md",
+    "README.md",
+    "PROGRESS.md",
+    "logs/run_027.md",
+    "logs/run_027.json"
+  ],
+  "quantitative_outputs": {
+    "sequencing": {
+      "n_paired": 39,
+      "strongest_fixed_baseline": "rolling_3",
+      "strongest_fixed_male": 0.14934227001183709,
+      "original_selector_male": 0.17619967449608345,
+      "selector_relative_improvement_vs_strongest": -0.17983792855242933,
+      "fair_gate_passed": false,
+      "follow_the_leader_male": 0.15614084514381724,
+      "follow_the_leader_relative_improvement_vs_rolling3": -0.04552344846131851,
+      "follow_the_leader_bootstrap_ci95": [-0.13716818289401297, 0.014474381336602364],
+      "exponential_weights_male": 0.16414144686531806,
+      "exponential_weights_relative_improvement_vs_rolling3": -0.09909570044909592,
+      "exponential_weights_bootstrap_ci95": [-0.32263825086746045, 0.08010858480151287]
+    },
+    "tests_final": 102,
+    "release_gates_passing": 8,
+    "release_gates_total": 11
+  },
+  "failures": [
+    {
+      "stage": "post-change pytest",
+      "result": "1 failed, 101 passed",
+      "cause": "existing test asserted exact limitations wording 'all-history baseline'",
+      "resolution": "restored precise wording without changing gate logic"
+    }
+  ],
+  "rejected_approaches": [
+    "post-hoc tuning another sequencing selector/window on the same outcomes and promoting the winner",
+    "using the two HS-6 headings as literal complete current HTSUSA import query coverage",
+    "inferring trade quantities from classification/concordance pages"
+  ],
+  "goes_current_code_sets": {
+    "imports_htsusa10": ["7225110000", "7226111000", "7226119030", "7226119060"],
+    "exports_scheduleb10": ["7225110000", "7226110000"],
+    "historical_warning": "current code sets are not projected backward without year-specific concordance verification"
+  },
+  "ci_status": {
+    "local_tests_green": true,
+    "report_only_reproduction_green": true,
+    "strict_eval_green": false,
+    "hosted_ci_execution": false,
+    "hosted_ci_completed_green": false,
+    "release_verifier": "8/11"
+  },
+  "weakest_link": "validated headline evaluation",
+  "next_actions": [
+    "freeze forecasting policy and evaluate on new held-out or strict historical-vintage technology series",
+    "ingest annual GOES imports/exports with year-correct concordances and add compatible domestic supply evidence",
+    "push exact candidate for hosted CI only after scientific eval gate is defensibly green"
+  ]
+}

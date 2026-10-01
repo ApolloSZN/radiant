@@ -1,0 +1,69 @@
+{
+  "run": 41,
+  "version": "v0.14-rc29",
+  "timestamp_utc": "2026-09-30T15:35:17Z",
+  "phase": 1,
+  "starting_state": {
+    "version": "v0.14-rc28",
+    "tests_passed": 133,
+    "strict_eval_exit": 0,
+    "import_floor_kt_per_year": [
+      87.203815,
+      107.203815
+    ],
+    "release_infrastructure_frozen": true
+  },
+  "objective": "Add authoritative GOES supply/demand evidence; prioritize annual U.S. direct imports, then foreign supply.",
+  "sources": [
+    {
+      "authority": "JFE Steel Corporation",
+      "published": "2024-02-13",
+      "url": "https://www.jfe-steel.co.jp/en/release/2024/02/240213.html"
+    },
+    {
+      "authority": "thyssenkrupp Electrical Steel",
+      "published": "2026-03-26",
+      "url": "https://www.thyssenkrupp-steel.com/en/newsroom/press-releases/thyssenkrupp-electrical-steel-extends-production-cuts-at-its-isbergues-site-in-france.html"
+    }
+  ],
+  "new_evidence": [
+    {
+      "evidence_id": "JFE2024_JSW_INDIA_GOES_JV_INVESTMENT",
+      "value": 670.0,
+      "unit": "USD million planned investment",
+      "period": "full operation planned FY2027",
+      "evidence_class": "producer_announced_goes_capacity_investment_not_tonnage",
+      "changes_import_floor": false
+    },
+    {
+      "evidence_id": "TKES2026_ISBERGUES_GOES_CURTAILMENT",
+      "value": 0.5,
+      "unit": "share of total site capacity operated",
+      "period": "January-May 2026; complete shutdown announced June-September 2026",
+      "evidence_class": "producer_reported_foreign_goes_supply_curtailment",
+      "changes_import_floor": false
+    }
+  ],
+  "tests": {
+    "passed": 134,
+    "strict_eval_exit": 0
+  },
+  "quantitative_outputs": {
+    "import_floor_kt_per_year": [
+      87.203815,
+      107.203815
+    ],
+    "shortage_claim": false
+  },
+  "rejected_approaches": [
+    "convert investment dollars to capacity tonnes",
+    "convert utilization share to tonnes without site capacity",
+    "adopt unofficial annual U.S. import reconstruction"
+  ],
+  "blockers": [
+    "authoritative 2020-2025 annual U.S. direct GOES import tonnage panel still absent"
+  ],
+  "weakest_link": "observed U.S. GOES trade panel",
+  "ci_status": "release infrastructure intentionally untouched under RUN_PROTOCOL 6.7",
+  "next_action": "Locate official published/DataWeb/SIMA annual direct GOES import tonnes for 2020-2025 with explicit HTS coverage; otherwise obtain producer-primary foreign GOES capacity stated in tonnes."
+}
