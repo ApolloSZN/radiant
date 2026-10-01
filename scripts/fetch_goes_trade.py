@@ -28,6 +28,10 @@ OUT = Path(__file__).resolve().parents[1] / 'data/goes/goes_trade_annual.csv'
 FIELDS = ['year', 'direction', 'level', 'code', 'quantity', 'unit', 'value_usd', 'status', 'source_url', 'retrieved_at']
 
 
+class CensusResponseError(Exception):
+    """Census answered, but not with data (key redirect or non-JSON body). Retrying cannot help."""
+
+
 def _get(direction: str, year: int, code: str, level: str) -> tuple[list[list[str]] | None, str]:
     if direction == 'imports':
         fields = 'I_COMMODITY,CTY_CODE,CTY_NAME,CON_QY1_YR,UNIT_QY1,CON_VAL_YR'
@@ -41,10 +45,19 @@ def _get(direction: str, year: int, code: str, level: str) -> tuple[list[list[st
     for attempt in range(3):
         try:
             with urllib.request.urlopen(url, timeout=60) as r:
-                body = r.read().decode()
+                body = r.read().decode(errors='replace')
+                final_url = r.geturl() if hasattr(r, 'geturl') else url
+            # Census redirects keyless/bad-key requests to an HTML page (missing_key.html / invalid_key.html).
+            if 'missing_key' in final_url or 'invalid_key' in final_url:
+                raise CensusResponseError('census_missing_or_invalid_key')
             if not body.strip():
                 return None, url  # Census returns 204/empty when no rows exist
-            return json.loads(body), url
+            try:
+                return json.loads(body), url
+            except ValueError:
+                raise CensusResponseError('census_non_json_body:' + ' '.join(body.split())[:100]) from None
+        except CensusResponseError:
+            raise
         except urllib.error.HTTPError as e:
             if e.code == 204:
                 return None, url
@@ -85,9 +98,13 @@ def main(argv: list[str]) -> int:
         try:
             rows, url = _get(d, y, c, lvl)
         except Exception as e:  # record, never crash the whole pull
+            msg = str(e)
+            if os.environ.get('CENSUS_API_KEY'):
+                msg = msg.replace(os.environ['CENSUS_API_KEY'], '***')
+            status = msg if isinstance(e, CensusResponseError) else f'error:{type(e).__name__}:{msg[:80]}'
             out_rows.append(dict(year=y, direction=d, level=lvl, code=c, quantity='', unit='', value_usd='',
-                                 status=f'error:{type(e).__name__}:{str(e)[:80]}', source_url='', retrieved_at=stamp))
-            print(f'{y} {d} {lvl} {c}: ERROR {e}')
+                                 status=status, source_url='', retrieved_at=stamp))
+            print(f'{y} {d} {lvl} {c}: ERROR {status}')
             continue
         if rows is None:
             out_rows.append(dict(year=y, direction=d, level=lvl, code=c, quantity='', unit='', value_usd='',

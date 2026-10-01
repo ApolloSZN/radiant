@@ -103,3 +103,42 @@ def test_fetch_contract_uses_consumption_quantities_and_sourced_hts10_scope():
     assert 'CON_QY1_YR' in seen['url'] and 'CON_VAL_YR' in seen['url']
     assert 'GEN_QY1_YR' not in seen['url']
     assert rows[1][3] == '1'
+
+
+def test_fetch_census_key_redirect_or_non_json_is_clear_status_and_not_retried(tmp_path, monkeypatch):
+    # Regression (Run 055): Census began redirecting keyless requests to missing_key.html; the
+    # fetcher retried each one and recorded a bare JSONDecodeError for every row.
+    spec = importlib.util.spec_from_file_location('fetch_key', Path('scripts/fetch_goes_trade.py'))
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    class Resp:
+        def __init__(self, final_url, body): self.final_url, self.body = final_url, body
+        def __enter__(self): return self
+        def __exit__(self,*a): pass
+        def read(self): return self.body
+        def geturl(self): return self.final_url
+    calls = []
+    def fake_urlopen(final_url, body):
+        def f(url, timeout=60):
+            calls.append(url); return Resp(final_url, body)
+        return f
+    def no_sleep(_): raise AssertionError('must not retry')
+    monkeypatch.setattr(m.time, 'sleep', no_sleep)
+    monkeypatch.setenv('CENSUS_API_KEY', 'SECRETKEY123')
+    for final in ('https://api.census.gov/data/missing_key.html', 'https://api.census.gov/data/invalid_key.html'):
+        calls.clear()
+        monkeypatch.setattr(m.urllib.request, 'urlopen', fake_urlopen(final, b'<html>key</html>'))
+        try: m._get('imports', 2025, '722511', 'HS6'); assert False
+        except m.CensusResponseError as e: assert str(e) == 'census_missing_or_invalid_key'
+        assert len(calls) == 1
+    calls.clear()
+    monkeypatch.setattr(m.urllib.request, 'urlopen', fake_urlopen('https://api.census.gov/x', b'<html>' + b'x' * 300))
+    try: m._get('imports', 2025, '722511', 'HS6'); assert False
+    except m.CensusResponseError as e: assert str(e) == 'census_non_json_body:<html>' + 'x' * 94
+    assert len(calls) == 1
+    monkeypatch.setattr(m, 'OUT', tmp_path / 'trade.csv')
+    monkeypatch.setattr(m.urllib.request, 'urlopen', fake_urlopen('https://api.census.gov/data/missing_key.html', b'<html/>'))
+    assert m.main(['fetch_goes_trade.py','2025','2025']) == 2
+    text = (tmp_path/'trade.csv').read_text()
+    rows = list(csv.DictReader(text.splitlines()))
+    assert {r['status'] for r in rows} == {'census_missing_or_invalid_key'}
+    assert 'SECRETKEY123' not in text
