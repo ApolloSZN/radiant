@@ -322,3 +322,98 @@ def phase2_embodied(path: Path = COMTRADE_PATH) -> dict[int, dict]:
             'lpt_goes_kt_lower_bound': lpt19 * (t / t19) / (TRANSFORMER_PPI[y] / TRANSFORMER_PPI[2019]),  # estimate
         }
     return out
+
+
+# --- Phase 3: demand, bottom-up ------------------------------------------------------
+DOE_DT_RULE = 'https://www.energy.gov/sites/default/files/2024-04/dt_ecs_fr.pdf'
+DOE_LPT_2024 = ('https://www.energy.gov/sites/default/files/2024-10/EXEC-2022-001242%20-%20Large%20Power%20Transformer'
+                '%20Resilience%20Report%20signed%20by%20Secretary%20Granholm%20on%207-10-24.pdf')
+
+DOE2024_DT_CORE_STEEL = Fact(
+    'DOE2024_DT_CORE_STEEL_225KT', 225.0, 'kt/year core steel, all U.S. distribution transformers', 'current (rule, 2024)',
+    '2024-04', 'estimate', '', DOE_DT_RULE,
+    'Final rule p. 537: "the U.S. annual demand for core steel in distribution transformer applications (estimated to be '
+    'approximately 225,000 metric tons)". Covers all DTs sold in the U.S., so it includes cores of imported DTs.')
+DOE2024_LIQUID_DT_CORE_STEEL = Fact(
+    'DOE2024_LIQUID_DT_CORE_STEEL_185KT', 185.0, 'kt/year core steel, liquid-immersed DTs', 'no-new-standards case',
+    '2024-04', 'estimate', '', DOE_DT_RULE,
+    'Final rule p. 210: "~185,000 metric tons for liquid-immersed distribution transformers assumed in the no-new standards '
+    'case"; ~146,000 t stays GOES under the adopted standard; ~48,000 t of amorphous replaces GOES (from 2029).')
+CLIFFS2023_AMORPHOUS_SHARE = Fact(
+    'DOE2024_RULE_CLIFFS_AMORPHOUS_3PCT', 0.03, 'amorphous share of DT market', 'c. 2023', '2024-04', 'stated',
+    'Cleveland-Cliffs', DOE_DT_RULE,
+    'Final rule p. 501, Cliffs comment: amorphous cores "currently constitutes about three percent of the market for '
+    'distribution transformers".')
+MTC2024_DT_GOES = Fact(
+    'MTC2024_DT_GOES_175KT', 175.0, 'kt/year GOES for U.S. DTs', 'c. 2023', '2024-04-22', 'stated', 'MTC (commenter)',
+    'https://public-inspection.federalregister.gov/2024-07480.pdf', 'Stakeholder comment recorded in the DOE rule.')
+DOE2024_LPT_WEIGHT = Fact(
+    'DOE2024_LPT_WEIGHT_150_400T', 150.0, 't per LPT (low end; high end 400)', '2024', '2024-07', 'stated', '',
+    DOE_LPT_2024, '"LPTs typically weigh between 150 and 400 tons" (DOE LPT Resilience Report, p. 2).')
+DOE2024_LPT_DEMAND_2027 = Fact(
+    'DOE2024_LPT_DEMAND_900_UNITS_2027', 900.0, 'units/year (>60 MVA)', 'by 2027', '2024-07', 'estimate', '',
+    DOE_LPT_2024, '"U.S. demand for new transformers (> 60MVA) was ~750 units" in 2019, "expected to increase to ~900 '
+    'units annually by 2027".')
+DOE2024_SHEET_PENETRATION_RANGE = Fact(
+    'DOE2024_GOES_SHEET_PENETRATION_12_37', 0.12, 'share (low; high 0.37)', '2015-2019', '2024-07', 'secondhand', '',
+    DOE_LPT_2024, '"imported GOES as low as 12 percent, or as high as 37 percent between 2015-2019" (citing Commerce).')
+NREL2024_DT_CAPACITY_2050 = Fact(
+    'NREL2024_92076_DT_CAPACITY_2050', 1.6, 'x 2021 DT capacity needed in 2050 (low; high 2.6)', '2021-2050',
+    '2024-11-27', 'model', '', 'https://nrel.gov/docs/fy25osti/92076.pdf',
+    'NREL: DT capacity needed in 2050 is 160-260% of 2021; 60-80 million units in service, ~55% older than 33 years.')
+
+PHASE3_FACTS = (DOE2024_DT_CORE_STEEL, DOE2024_LIQUID_DT_CORE_STEEL, CLIFFS2023_AMORPHOUS_SHARE, MTC2024_DT_GOES,
+                DOE2024_LPT_WEIGHT, DOE2024_LPT_DEMAND_2027, DOE2024_SHEET_PENETRATION_RANGE, NREL2024_DT_CAPACITY_2050)
+
+# Commerce 2019 unit balance, FR 2021-24958 Figure VIII-3 (BIS survey production; USITC DataWeb trade): measured.
+COMMERCE2019_UNITS = {  # (production, imports, exports)
+    'dt_liquid_lt_650kva': (1_035_055, 210_999, 33_871),
+    'dt_liquid_650_10000kva': (23_298, 8_240, 3_029),
+    'power_10_100mva': (1_640, 594, 99),
+    'lpt_gt_100mva': (137, 617, 4),
+}
+
+
+def phase3_demand_comparison() -> dict:
+    """2019 bottom-up GOES use by transformer class vs top-down supply including finished-transformer imports (kt)."""
+    p0 = phase0_reconciliation()
+    dt_goes = (MTC2024_DT_GOES.value, DOE2024_DT_CORE_STEEL.value * (1 - CLIFFS2023_AMORPHOUS_SHARE.value))
+    goes_per_lpt_t = (DOE2024_LPT_WEIGHT.value * DOE2022_GOES_SHARE_OF_TRANSFORMER_WEIGHT.value,
+                      400.0 * NLR2026_GOES_SHARE_OF_LPT_WEIGHT.value)
+    u = COMMERCE2019_UNITS
+    dt_prod = u['dt_liquid_lt_650kva'][0] + u['dt_liquid_650_10000kva'][0]
+    dt_imp = u['dt_liquid_lt_650kva'][1] + u['dt_liquid_650_10000kva'][1]
+    dt_exp = u['dt_liquid_lt_650kva'][2] + u['dt_liquid_650_10000kva'][2]
+    dt_ac = dt_prod + dt_imp - dt_exp
+    lpt_prod, lpt_imp, lpt_exp = u['lpt_gt_100mva']
+    lpt_ac = lpt_prod + lpt_imp - lpt_exp
+    rng = lambda k, pair: (k * pair[0], k * pair[1])
+    bottom_up = {
+        'distribution_transformers': dt_goes,                                   # estimate (DOE / MTC, c. 2023)
+        'large_power_transformers': rng(lpt_ac / 1000, goes_per_lpt_t),         # estimate
+        'power_10_100mva': None, 'non_transformer_uses': None,                  # no in-scope intensity: unquantified
+    }
+    dt_import_share = dt_imp / dt_ac
+    top_down = {
+        'sheet_consumption': p0['sheet_consumption_2019_kt'],
+        'cores_imported': (COMMERCE_2019_EMBODIED_CORES.value,) * 2,
+        'lpt_imported': rng(lpt_imp / 1000, goes_per_lpt_t),
+        'dt_imported': rng(dt_import_share, dt_goes),
+        'power_10_100mva_imported': None,
+    }
+    tot = lambda d: (sum(v[0] for v in d.values() if v), sum(v[1] for v in d.values() if v))
+    # Domestic check: sheet + cores (what U.S. transformer plants use) vs GOES in U.S.-made transformers.
+    dom_need = (dt_goes[0] * (dt_prod - dt_exp) / dt_ac + lpt_prod * goes_per_lpt_t[0] / 1000,
+                dt_goes[1] * (dt_prod - dt_exp) / dt_ac + lpt_prod * goes_per_lpt_t[1] / 1000)
+    sc = p0['sheet_consumption_2019_kt']
+    dom_supply = (sc[0] + COMMERCE_2019_EMBODIED_CORES.value, sc[1] + COMMERCE_2019_EMBODIED_CORES.value)
+    bu, td = tot(bottom_up), tot(top_down)
+    return {
+        'goes_per_lpt_t': goes_per_lpt_t, 'dt_import_unit_share': dt_import_share,
+        'bottom_up_kt': bottom_up, 'bottom_up_total_known_kt': bu,
+        'top_down_kt': top_down, 'top_down_total_kt': td,
+        'ranges_overlap': bu[1] >= td[0] and td[1] >= bu[0],
+        'domestic_transformer_need_kt': dom_need, 'domestic_goes_supply_kt': dom_supply,
+        'residual_for_medium_power_and_other_kt': (dom_supply[0] - dom_need[1], dom_supply[1] - dom_need[0]),
+        'evidence_type': 'estimate',
+    }

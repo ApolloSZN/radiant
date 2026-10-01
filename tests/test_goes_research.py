@@ -98,3 +98,22 @@ def test_phase2_embodied_anchors_and_bounds():
     assert e[2025]['transformer_ppi'] / e[2019]['transformer_ppi'] == pytest.approx(1.756, abs=0.01)
     for f in g.PHASE2_FACTS:
         assert f.evidence_type in g.EVIDENCE_TYPES
+
+
+def test_phase3_bottom_up_and_top_down_overlap_and_domestic_identity_closes():
+    r = g.phase3_demand_comparison()
+    assert r['ranges_overlap'] is True
+    assert r['goes_per_lpt_t'] == (60.0, 192.0)
+    assert 0.17 < r['dt_import_unit_share'] < 0.18
+    lo, hi = r['residual_for_medium_power_and_other_kt']
+    assert 0 < lo < hi < 70  # U.S. sheet + cores covers U.S.-made DTs and LPTs with room for the unquantified classes
+    assert r['bottom_up_kt']['power_10_100mva'] is None  # no in-scope intensity: left as a gap, not invented
+    for f in g.PHASE3_FACTS:
+        assert f.evidence_type in g.EVIDENCE_TYPES and f.source.startswith('http')
+
+
+def test_phase3_finished_transformers_are_a_large_hidden_channel():
+    r = g.phase3_demand_comparison()
+    lpt_lo = r['top_down_kt']['lpt_imported'][0]
+    assert lpt_lo > g.phase2_embodied()[2019]['lpt_goes_kt_lower_bound']  # DOE weights tighten the Phase 2 floor
+    assert lpt_lo + r['top_down_kt']['dt_imported'][0] > 65  # comparable to the 68 kt in cores
