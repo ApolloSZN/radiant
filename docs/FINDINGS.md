@@ -349,3 +349,14 @@ One correction to the research plan: no anti-dumping or countervailing duty orde
 ## Run 062 (Research plan Phase 6) — the publishable piece
 
 `docs/article/americas-hidden-transformer-steel-dependence.md` (about 1,570 words, one chart, every number linked to a source) and `docs/article/methods.md` (one page) tell the Phase 5 result for a general reader. The text is rendered from templates by `scripts/build_goes_article.py`, so every figure comes straight from `goes_balance`. A test fails if the article falls out of date with the code. No new numbers were introduced in this run.
+
+
+## Run 063 — release-status synchronization
+
+Radiant v1.0 remains frozen at exact release SHA `2044ca5f8a235889a27733f58b3c0cdf5c11a7c8`. The maintenance work in this run changes documentation only: it synchronizes repository-facing status with the hosted release evidence already produced for that exact SHA. It does not change models, datasets, baselines, tests, or scientific claims.
+
+The positive evaluation remains **bitemporal information integrity**, not predictive superiority: replaying historical BLS observations with latest revisions leaks future information at **9/9** tested cutoffs, while the as-of replay produces **0/9** leakage violations. The earlier forecasting-advantage claim remains withdrawn. GOES results also remain bounded as previously documented; this run adds no new shortage claim or effect size.
+
+The maintenance head passed hosted CI, including the normal reproduction path, clean-container reproduction, CI attestation, and release verification. What can be claimed is therefore narrow: the status-document correction does not regress the shipped executable system. What cannot be claimed is any new scientific capability or forecast improvement.
+
+The binding next program action is Phase-2 candidate approval. Until that approval exists, Radiant should remain frozen except for regression repair and release-documentation maintenance.
