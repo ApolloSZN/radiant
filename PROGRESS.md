@@ -1,6 +1,6 @@
 # Radiant progress
 
-## Current status (v0.14-rc42, Run 054)
+## Current status (Radiant v1.0 shipped; maintenance checkpoint Run 063)
 
 | Subsystem | State |
 |---|---|
@@ -10,16 +10,16 @@
 | Historical-vintage replay | strict BLS replay passes integrity; predictive model loses (kept) |
 | Transformer case | identified macro import-dependence bound (2019) |
 | GOES supply | **rebuilt (Run 061): 51–65% of 2019 U.S. GOES use was foreign in all forms (sheet + cores + finished transformers, 282–376 kt); ≥46% through 2035 in every scenario**; Run 053 "33% → 41–44%" withdrawn (288 kt double counted cores); no shortage claimed |
-| Release rule | ADR 006 unchanged; release infrastructure frozen under RUN_PROTOCOL §6.7 until a real hosted run exists |
-| Tests | **149 passing** |
+| Release rule | **v1.0 shipped** at exact release SHA `2044ca5f8a235889a27733f58b3c0cdf5c11a7c8`; hosted release evidence verified |
+| Tests | **release gate green on exact shipped SHA**; historical Run 054 count below is retained as append-only evidence |
 | Strict eval | **exit 0** |
-| Hosted CI | not run in this work session; Claude/owner handoff is separate and frozen from scheduled research work |
+| Hosted CI | **verified green** on exact shipped SHA; final release verifier's full-v1.0 ship-bar step passed |
 
 **Weakest scientific link:** recent embodied-GOES mass is still missing. Run 054 adds 2024 and early-2025 USITC DataWeb counts for imported laminations, but those observations are in units rather than tonnes; the latest mass estimates remain 68 kt for 2019 and 96 kt for 2020 (estimate). Direct annual U.S. GOES steel tonnes for 2020–2025 are also still missing.
 
-**Weakest shipping link:** no real hosted GitHub run is evidenced in this repository snapshot. Per RUN_PROTOCOL §6.7, scheduled research runs do not modify release infrastructure until an actual hosted failure exists.
+**Weakest shipping link:** none for Radiant v1.0. The remaining program gate is Phase-2 project selection; implementation must not begin until Logan explicitly approves a presented charter.
 
-**Exact next executable action:** continue priority 0: find a 2021–2025 official/federal-record estimate that maps imported laminations/cores to GOES mass. Search Commerce/USITC/DOE filings that use the newer 8504.90 trade counts with a weight estimate. If none exists, take the first official annual direct-GOES tonnage observation for 2020–2025. Do not infer tonnes from unit counts.
+**Exact next executable action:** keep Radiant frozen and green. Do not reopen withdrawn forecasting claims or add speculative GOES conversions. Present/maintain the top-three Phase-2 charters and wait for Logan's explicit project approval before starting the single WIP.
 
 # Run history (append-only; early entries describe earlier states)
 
@@ -445,3 +445,11 @@ Added two official tariff-policy evidence records: the current HTSUS Column 1 ge
 - Evidence remains unit counts, not mass; no conversion to GOES tonnes was made.
 - Run 053 all-forms headline unchanged; no shortage claimed.
 - 149/149 tests pass; strict eval exits 0.
+
+
+## Run 063 — release-status synchronization
+- Corrected stale top-level status text that still described the pre-hosted-CI Run 054 state.
+- Radiant v1.0 is recorded as shipped at exact SHA `2044ca5f8a235889a27733f58b3c0cdf5c11a7c8`; hosted finalization evidence has passed the full ship-bar check on that SHA.
+- No scientific result, baseline, dataset, model, or withdrawn claim was changed. Historical run entries remain append-only.
+- Phase 2 remains selection-gated: no candidate implementation begins without Logan's explicit approval.
+- Exact next action: keep Radiant green and maintain the three Phase-2 charters; after explicit approval, start exactly one WIP.
